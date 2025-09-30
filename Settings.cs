@@ -41,11 +41,6 @@ namespace Wiring_Desk
             {
                 if (parentPanel == null)
                     throw new Exception("Parent panel reference missing.");
-
-                parentPanel.Controls.Clear();
-                ImageWrapper imageWrapperPage = new ImageWrapper();
-                imageWrapperPage.Dock = DockStyle.Fill;
-                parentPanel.Controls.Add(imageWrapperPage);
             }
             catch (Exception ex)
             {

@@ -30,11 +30,11 @@
         {
             this.rounded_Button1 = new Wiring_Desk.Rounded_Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pbBin = new System.Windows.Forms.PictureBox();
+            this.pbCon = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbBin)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbCon)).BeginInit();
             this.SuspendLayout();
             // 
             // rounded_Button1
@@ -59,8 +59,8 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.pictureBox1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.pictureBox2, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.pbBin, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.pbCon, 1, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(10, 52);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -69,22 +69,22 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1346, 441);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
-            // pictureBox1
+            // pbBin
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(4, 4);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(660, 410);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            this.pbBin.Location = new System.Drawing.Point(4, 4);
+            this.pbBin.Name = "pbBin";
+            this.pbBin.Size = new System.Drawing.Size(660, 410);
+            this.pbBin.TabIndex = 0;
+            this.pbBin.TabStop = false;
+            this.pbBin.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
-            // pictureBox2
+            // pbCon
             // 
-            this.pictureBox2.Location = new System.Drawing.Point(676, 4);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(660, 410);
-            this.pictureBox2.TabIndex = 1;
-            this.pictureBox2.TabStop = false;
+            this.pbCon.Location = new System.Drawing.Point(676, 4);
+            this.pbCon.Name = "pbCon";
+            this.pbCon.Size = new System.Drawing.Size(660, 410);
+            this.pbCon.TabIndex = 1;
+            this.pbCon.TabStop = false;
             // 
             // ImageWrapper
             // 
@@ -95,9 +95,10 @@
             this.Controls.Add(this.rounded_Button1);
             this.Name = "ImageWrapper";
             this.Size = new System.Drawing.Size(1366, 493);
+            this.Load += new System.EventHandler(this.ImageWrapper_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbBin)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbCon)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -106,7 +107,7 @@
 
         private Rounded_Button rounded_Button1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox pbBin;
+        private System.Windows.Forms.PictureBox pbCon;
     }
 }

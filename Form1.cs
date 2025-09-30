@@ -15,6 +15,10 @@ namespace Wiring_Desk
 {
     public partial class GTI : Form
     {
+        private int targetCycleTimeInSeconds = 0;
+        private int actualCycleTimeInSeconds = 0;
+        private ImageWrapper imgWrapper; // accessible to all buttons
+
         public GTI()
 
         {
@@ -27,30 +31,114 @@ namespace Wiring_Desk
 
             this.FormBorderStyle = FormBorderStyle.None;
             this.WindowState = FormWindowState.Maximized;
-            // this.TopMost = true;
+            //this.TopMost = true;
+            Date_Timer.Start();
 
         }
 
         private void GTI_Load(object sender, EventArgs e)
         {
             LoadUI();
+           
         }
 
         private void Date_Timer_Tick(object sender, EventArgs e)
         {
-            btnLogin.Text = DateTime.Now.ToLongTimeString();
-        }
-
-        private void selectDesk_SelectedValueChanged(object sender, EventArgs e)
-        {
-
+            if (btnDate.InvokeRequired)
+            {
+                btnDate.Invoke((MethodInvoker)(() => btnDate.Text = DateTime.Now.ToString("dd-MM-yy")));
+                btnTime.Invoke((MethodInvoker)(() => btnTime.Text = DateTime.Now.ToLongTimeString()));
+            }
+            else
+            {
+                btnDate.Text = DateTime.Now.ToString("dd-MM-yy");  
+                btnTime.Text = DateTime.Now.ToLongTimeString();
+            }
         }
 
         private void selectDesk_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+            if (selectDesk.SelectedItem != null)
+            {
+                string selectedFile = selectDesk.SelectedItem.ToString();
+                ProcessReader.LoadProcess(selectedFile);
+                panelUserControl.Controls.Clear();
+                AllConImage allCon = new AllConImage();
+                allCon.SetParentForm(this);
+                allCon.Dock = DockStyle.Fill;
+                panelUserControl.Controls.Add(allCon);
+                allCon.LoadImagesFromProcess(selectedFile);
+
+                try
+                {
+                    if (ConfigReader.ConfigCSV.Count > 3)
+                    {
+                        var row = ConfigReader.ConfigCSV[3]; // 4th row
+                        if (row != null && row.Count > 3)
+                        {
+                            if (!int.TryParse(row[2], out int minutes))
+                                minutes = 0;
+                            if (!int.TryParse(row[3], out int seconds))
+                                seconds = 0;
+                            lblTargetCycleTime.Text = $"{minutes:D2}:{seconds:D2}";
+                            targetCycleTimeInSeconds = minutes * 60 + seconds;
+
+                            actualCycleTimeInSeconds = 0; 
+                            lblActualTargetTime.ForeColor = Color.Black;
+                            cycleTimer.Start();
+                        }
+                        else
+                        {
+                            lblTargetCycleTime.Text = "00:00";
+                            targetCycleTimeInSeconds = 0;
+                            MessageBox.Show("Target cycle time column missing in ConfigCSV.");
+                        }
+                    }
+                    else
+                    {
+                        lblTargetCycleTime.Text = "00:00";
+                        targetCycleTimeInSeconds = 0;
+                        MessageBox.Show("Target cycle time row missing in ConfigCSV.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    lblTargetCycleTime.Text = "00:00";
+                    targetCycleTimeInSeconds = 0;
+                    MessageBox.Show("Error reading target cycle time: " + ex.Message);
+                }
+            }
         }
-       
+
+
+        private void cycleTimer_Tick(object sender, EventArgs e)
+        {
+        
+            actualCycleTimeInSeconds++;
+            int minutes = actualCycleTimeInSeconds / 60;
+            int seconds = actualCycleTimeInSeconds % 60;
+
+            lblActualTargetTime.Text = $"{minutes:D2}:{seconds:D2}";
+
+            if (actualCycleTimeInSeconds >= targetCycleTimeInSeconds)
+            {
+                lblActualTargetTime.ForeColor = Color.Red;
+            }
+            else
+            {
+                lblActualTargetTime.ForeColor = Color.Black; 
+            }
+        }
+
+        public void ResetSelectDesk()
+        {
+            selectDesk.SelectedIndexChanged -= selectDesk_SelectedIndexChanged;
+            selectDesk.SelectedIndex = -1;
+            selectDesk.SelectedIndexChanged += selectDesk_SelectedIndexChanged;
+        }
+
+
         /*-----------------------------------------------------------------LOAD------------------------------------------------------------------*/
 
         private void LoadConfig()
@@ -67,13 +155,11 @@ namespace Wiring_Desk
 
         private void LoadUI()
         {
-            panelUserControl.Controls.Clear();
-            ImageWrapper image_wrapper = new ImageWrapper();
-            image_wrapper.Dock = DockStyle.Fill;
-            panelUserControl.Controls.Add(image_wrapper);
-
             lblTargetCount.SelectionAlignment = HorizontalAlignment.Center;
             lblActualCount.SelectionAlignment = HorizontalAlignment.Center;
+            lblActualTargetTime.SelectionAlignment = HorizontalAlignment.Center;
+            lblTargetCycleTime.SelectionAlignment = HorizontalAlignment.Center;
+            lblStepIndicator.SelectionAlignment = HorizontalAlignment.Center;
 
             lblTitle.TextAlign = ContentAlignment.MiddleCenter;
             string title = ConfigReader.ConfigCSV[16][10];
@@ -140,12 +226,20 @@ namespace Wiring_Desk
 
         private void btnStepIncr_Click(object sender, EventArgs e)
         {
-
+            if (imgWrapper != null && imgWrapper.CurrentRowIndex < ProcessReader.Process_CSV.Count - 1)
+            {
+                imgWrapper.CurrentRowIndex++;
+                lblStepIndicator.Text = (imgWrapper.CurrentRowIndex - 4).ToString();
+            }
         }
 
         private void btnStepDecr_Click(object sender, EventArgs e)
         {
-
+            if (imgWrapper != null && imgWrapper.CurrentRowIndex > 5)
+            {
+                imgWrapper.CurrentRowIndex--;
+                lblStepIndicator.Text = (imgWrapper.CurrentRowIndex - 4).ToString();
+            }
         }
 
         private void btnCyEnable_Click(object sender, EventArgs e)
@@ -208,6 +302,28 @@ namespace Wiring_Desk
 
         private void btnStart_Click(object sender, EventArgs e)
         {
+            try
+            {
+                panelUserControl.Controls.Clear();
+                string selectedFile = selectDesk.SelectedItem.ToString();
+
+                if (string.IsNullOrWhiteSpace(selectedFile))
+                {
+                    MessageBox.Show("Select a desk first.");
+                    return;
+                }
+
+                ProcessReader.LoadProcess(selectedFile);
+                imgWrapper = new ImageWrapper(selectedFile, ProcessReader.Process_CSV);
+                imgWrapper.Dock = DockStyle.Fill;
+                panelUserControl.Controls.Add(imgWrapper);
+                lblStepIndicator.Text = "1"; // first step (6th row)
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Please select a process before starting. " + ex.Message);
+            }
         }
 
        private void btnSettings_Click(object sender, EventArgs e)
@@ -238,6 +354,8 @@ namespace Wiring_Desk
         {
 
         }
+
+        
     }
 }
 

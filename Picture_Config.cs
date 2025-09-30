@@ -450,7 +450,7 @@ namespace Wiring_Desk
                 string jsonPath = Path.Combine(harnessDir, $"{selectedCon}.json");
                 File.WriteAllText(jsonPath, json);
 
-                MessageBox.Show($"JSON saved successfully at:\n{jsonPath}");
+               //MessageBox.Show($"JSON saved successfully at:\n{jsonPath}");
             }
             catch (Exception ex)
             {
