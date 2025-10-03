@@ -41,6 +41,7 @@ namespace Wiring_Desk
             {
                 if (parentPanel == null)
                     throw new Exception("Parent panel reference missing.");
+                    parentPanel.Controls.Clear();
             }
             catch (Exception ex)
             {

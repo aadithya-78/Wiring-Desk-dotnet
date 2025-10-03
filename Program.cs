@@ -16,7 +16,7 @@ namespace Wiring_Desk
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GTI());
+            Application.Run(new loginForm());
         }
     }
 }

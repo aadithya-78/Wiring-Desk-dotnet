@@ -85,6 +85,7 @@
             this.pbCon.Size = new System.Drawing.Size(660, 410);
             this.pbCon.TabIndex = 1;
             this.pbCon.TabStop = false;
+            this.pbCon.Paint += new System.Windows.Forms.PaintEventHandler(this.pbCon_paint);
             // 
             // ImageWrapper
             // 

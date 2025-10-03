@@ -34,12 +34,51 @@ namespace Wiring_Desk
             //this.TopMost = true;
             Date_Timer.Start();
 
+            InitializeContextMenu();
+
+            guna2Button1.MouseUp += Guna2Button1_MouseUp;
+
         }
 
         private void GTI_Load(object sender, EventArgs e)
         {
             LoadUI();
            
+        }
+
+        private ContextMenuStrip buttonContextMenu;
+
+        private void InitializeContextMenu()
+        {
+            buttonContextMenu = new ContextMenuStrip { ShowImageMargin = false };
+            buttonContextMenu.Items.Add("Create User", null, (s, e) => CreateUser());
+            buttonContextMenu.Items.Add("Update Password", null, (s, e) => UpdatePassword());
+            buttonContextMenu.Items.Add("Delete User", null, (s, e) => DeleteUser());
+            buttonContextMenu.Items.Add("Close", null, (s, e) => buttonContextMenu.Close()); 
+        }
+
+        private void CreateUser()
+        {
+            using (CreateUserForm form = new CreateUserForm())
+            {
+                form.ShowDialog(this);  
+            }
+        }
+
+        private void UpdatePassword()
+        {
+            using (UpdatePasswordForm form = new UpdatePasswordForm())
+            {
+                form.ShowDialog(this);
+            }
+        }
+
+        private void DeleteUser()
+        {
+            using (DeleteUserForm form = new DeleteUserForm())
+            {
+                form.ShowDialog(this);
+            }
         }
 
         private void Date_Timer_Tick(object sender, EventArgs e)
@@ -340,6 +379,16 @@ namespace Wiring_Desk
             this.Close();
         }
 
+
+        private void Guna2Button1_MouseUp(object sender, MouseEventArgs e)
+        {
+
+            if (e.Button == MouseButtons.Right)
+            {
+                buttonContextMenu.Show(guna2Button1, e.Location);
+            }
+        }
+
         private void panelConfig_Paint(object sender, PaintEventArgs e)
         {
 
@@ -355,7 +404,10 @@ namespace Wiring_Desk
 
         }
 
-        
+        private void lblStepIndicator_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 

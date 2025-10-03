@@ -681,5 +681,10 @@ namespace Wiring_Desk
                 MessageBox.Show("Error updating JSON after deletion: " + ex.Message);
             }
         }
+
+        private void Picture_Config_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -404,6 +404,7 @@
             this.Controls.Add(this.panel1);
             this.Name = "Picture_Config";
             this.Size = new System.Drawing.Size(1366, 700);
+            this.Load += new System.EventHandler(this.Picture_Config_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
