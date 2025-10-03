@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Guna.UI2.AnimatorNS;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,7 +18,10 @@ namespace Wiring_Desk
     {
         private int targetCycleTimeInSeconds = 0;
         private int actualCycleTimeInSeconds = 0;
-        private ImageWrapper imgWrapper; // accessible to all buttons
+        private ImageWrapper imgWrapper;
+        private int hw_flags = 1;
+        private Queue<int> UARTSequence = new Queue<int>();
+        private bool startupRunning = false;
 
         public GTI()
 
@@ -25,6 +29,7 @@ namespace Wiring_Desk
             InitializeComponent();
             LoadProcessDesk();
             LoadConfig();
+            SerialInit();
            
             DateTime today = DateTime.Today; 
             btnDate.Text = today.ToString();
@@ -34,10 +39,18 @@ namespace Wiring_Desk
             //this.TopMost = true;
             Date_Timer.Start();
 
+            rxtxTimerHome.Start();
+            UARTSequence.Enqueue(2);
+            UARTSequence.Enqueue(4);
+            UARTSequence.Enqueue(6);
+            UARTSequence.Enqueue(3);
+            UARTSequence.Enqueue(5);
+            UARTSequence.Enqueue(7);
+            UARTSequence.Enqueue(2);
+            startupRunning = true;
+
             InitializeContextMenu();
-
             guna2Button1.MouseUp += Guna2Button1_MouseUp;
-
         }
 
         private void GTI_Load(object sender, EventArgs e)
@@ -45,6 +58,39 @@ namespace Wiring_Desk
             LoadUI();
            
         }
+
+        private void SerialInit()
+        {
+                try
+                {
+                    if (!serialPort1.IsOpen)
+                    {
+                        string portNumberStr = ConfigReader.ConfigCSV[2][10];
+                    if (!int.TryParse(portNumberStr, out int portNumber))
+                        {
+                            MessageBox.Show("Invalid COM port number in CSV.");
+                            return;
+                        }
+
+                        serialPort1.PortName = "COM" + portNumber;
+                        serialPort1.BaudRate = 19200;
+                        serialPort1.Open();
+                        serialPort1.RtsEnable = false;
+                        serialPort1.DtrEnable = true;
+                        serialPort1.DtrEnable = false;
+                        panelComIndicator.BackColor = Color.Green;
+                }
+                    else
+                    {
+                     panelComIndicator.BackColor = Color.Red;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error opening serial port: " + ex.Message);
+                }
+        }
+
 
         private ContextMenuStrip buttonContextMenu;
 
@@ -206,7 +252,6 @@ namespace Wiring_Desk
 
         }
 
-
         private void LoadProcessDesk()
         {
             string folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "process");
@@ -240,27 +285,122 @@ namespace Wiring_Desk
             }
         }
 
-     
+        /*--------------------------------------------------------------HARDWARE------------------------------------------------------------------*/
 
-/*---------------------------------------------------------------BUTTONS------------------------------------------------------------------*/
+
+        private void rxtxTimerHome_Tick(object sender, EventArgs e)
+        {
+           if (startupRunning && UARTSequence.Count > 0)
+            {
+                hw_flags = UARTSequence.Dequeue();
+            }
+            else if (startupRunning && UARTSequence.Count == 0)
+            {
+                startupRunning = false;
+            }
+
+            switch (hw_flags)
+            {
+                case 1://Heart Beat
+                    if (serialPort1 != null && serialPort1.IsOpen)
+                    {
+                        byte[] packet = { 0x27, 0x04, 0x85, 0x01, 0x00, 0x00, 0x16 };
+                        serialPort1.Write(packet, 0, packet.Length);
+                    }
+                    break;
+
+                case 2: // Yellow Relay On
+                    {
+                        if (serialPort1 != null && serialPort1.IsOpen)
+                        {
+                            byte[] packet = { 0x27, 0x05, 0x85, 0x01, 0x06, 0x01, 0x01, 0x16 };
+                            serialPort1.Write(packet, 0, packet.Length);
+                            hw_flags = 1;
+                        }
+                        break;
+                    }
+                case 3: // Yellow Relay Off
+                    {
+                        if (serialPort1 != null && serialPort1.IsOpen)
+                        {
+                            byte[] packet = { 0x27, 0x05, 0x85, 0x01, 0x06, 0x01, 0x00, 0x16 };
+                            serialPort1.Write(packet, 0, packet.Length);
+                            hw_flags = 1;
+                        }
+                        break;
+                    }
+
+                case 4: // Green Relay On
+                    {
+                        if (serialPort1 != null && serialPort1.IsOpen)
+                        {
+                            byte[] packet = { 0x27, 0x05, 0x85, 0x01, 0x06, 0x02, 0x01, 0x16 };
+                            serialPort1.Write(packet, 0, packet.Length);
+                            hw_flags = 1;
+                        }
+                        break;
+                    }
+                case 5: // Green relay off
+                    {
+                        if (serialPort1 != null && serialPort1.IsOpen)
+                        {
+                            byte[] packet = { 0x27, 0x05, 0x85, 0x01, 0x06, 0x02, 0x00, 0x16 };
+                            serialPort1.Write(packet, 0, packet.Length);
+                            hw_flags = 1;
+                        }
+                        break;
+                    }
+
+                case 6: // Red Relay On
+                    {
+                        if (serialPort1 != null && serialPort1.IsOpen)
+                        {
+                            byte[] packet = { 0x27, 0x05, 0x85, 0x01, 0x06, 0x03, 0x01, 0x16 };
+                            serialPort1.Write(packet, 0, packet.Length);
+                            hw_flags = 1;
+                        }
+                        break;
+                    }
+                case 7: // Red Relay Off
+                    {
+                        if (serialPort1 != null && serialPort1.IsOpen)
+                        {
+                            byte[] packet = { 0x27, 0x05, 0x85, 0x01, 0x06, 0x03, 0x00, 0x16 };
+                            serialPort1.Write(packet, 0, packet.Length);
+                            hw_flags = 1;
+                        }
+                        break;
+                    }
+
+                default:
+                    if (serialPort1 != null && serialPort1.IsOpen)
+                    {
+                        byte[] packet = { 0x27, 0x04, 0x85, 0x01, 0x00, 0x00, 0x16 };
+                        serialPort1.Write(packet, 0, packet.Length);
+                    }
+                    break;
+            }
+        }
+
+        /*---------------------------------------------------------------BUTTONS------------------------------------------------------------------*/
 
 
         private void btnWarning_OnClick(object sender, EventArgs e)
         {
+            hw_flags = 6;
             btn_WarOn.HoverEndColor = Color.Green;
             btn_WarOff.HoverEndColor = Color.Red;
             btn_WarOn.StartColor = Color.Green;
             btn_WarOff.StartColor = Color.Red;
-            
         }
 
         private void btnWarningOff_OnClick(object sender, EventArgs e)
         {
+            hw_flags = 7;
             btn_WarOn.HoverEndColor = Color.Red;
             btn_WarOff.HoverEndColor = Color.Green;
             btn_WarOn.StartColor = Color.Red;
             btn_WarOff.StartColor = Color.Green;
-           
         }
 
         private void btnStepIncr_Click(object sender, EventArgs e)
@@ -356,7 +496,7 @@ namespace Wiring_Desk
                 imgWrapper = new ImageWrapper(selectedFile, ProcessReader.Process_CSV);
                 imgWrapper.Dock = DockStyle.Fill;
                 panelUserControl.Controls.Add(imgWrapper);
-                lblStepIndicator.Text = "1"; // first step (6th row)
+                lblStepIndicator.Text = "1"; 
 
             }
             catch (Exception ex)
