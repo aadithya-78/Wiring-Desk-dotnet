@@ -28,9 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.rounded_Button1 = new Wiring_Desk.Rounded_Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.relayTimer = new System.Windows.Forms.Timer(this.components);
+            this.rxtxTimer = new System.Windows.Forms.Timer(this.components);
+            this.borderTimer = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -81,6 +85,21 @@
             this.panel1.Size = new System.Drawing.Size(1346, 417);
             this.panel1.TabIndex = 3;
             // 
+            // relayTimer
+            // 
+            this.relayTimer.Interval = 50;
+            this.relayTimer.Tick += new System.EventHandler(this.relayTimer_Tick);
+            // 
+            // rxtxTimer
+            // 
+            this.rxtxTimer.Interval = 300;
+            this.rxtxTimer.Tick += new System.EventHandler(this.rxtxTimer_Tick);
+            // 
+            // borderTimer
+            // 
+            this.borderTimer.Interval = 300;
+            this.borderTimer.Tick += new System.EventHandler(this.borderTimer_Tick);
+            // 
             // AllConImage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -89,7 +108,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.rounded_Button1);
             this.Name = "AllConImage";
-            this.Size = new System.Drawing.Size(1366, 493);
+            this.Size = new System.Drawing.Size(1366, 331);
             this.Load += new System.EventHandler(this.AllConImage_Load);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -101,5 +120,8 @@
         private Rounded_Button rounded_Button1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Timer relayTimer;
+        private System.Windows.Forms.Timer rxtxTimer;
+        private System.Windows.Forms.Timer borderTimer;
     }
 }

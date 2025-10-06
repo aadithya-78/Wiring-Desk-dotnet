@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GTI));
             this.panelFooter = new System.Windows.Forms.Panel();
+            this.labelInstruction = new System.Windows.Forms.Label();
             this.btnSettings = new Guna.UI2.WinForms.Guna2Button();
             this.btnStart = new Guna.UI2.WinForms.Guna2Button();
             this.btnReset = new System.Windows.Forms.Button();
@@ -90,7 +91,8 @@
             // 
             // panelFooter
             // 
-            this.panelFooter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(113)))), ((int)(((byte)(169)))), ((int)(((byte)(217)))));
+            this.panelFooter.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(103)))), ((int)(((byte)(160)))));
+            this.panelFooter.Controls.Add(this.labelInstruction);
             this.panelFooter.Controls.Add(this.btnSettings);
             this.panelFooter.Controls.Add(this.btnStart);
             this.panelFooter.Controls.Add(this.btnReset);
@@ -100,6 +102,17 @@
             this.panelFooter.Size = new System.Drawing.Size(1366, 70);
             this.panelFooter.TabIndex = 30;
             this.panelFooter.Paint += new System.Windows.Forms.PaintEventHandler(this.panelFooter_Paint);
+            // 
+            // labelInstruction
+            // 
+            this.labelInstruction.AutoSize = true;
+            this.labelInstruction.Font = new System.Drawing.Font("Segoe UI", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelInstruction.ForeColor = System.Drawing.Color.White;
+            this.labelInstruction.Location = new System.Drawing.Point(169, 11);
+            this.labelInstruction.Name = "labelInstruction";
+            this.labelInstruction.Size = new System.Drawing.Size(1110, 46);
+            this.labelInstruction.TabIndex = 38;
+            this.labelInstruction.Text = resources.GetString("labelInstruction.Text");
             // 
             // btnSettings
             // 
@@ -165,6 +178,7 @@
             // serialPort1
             // 
             this.serialPort1.BaudRate = 19200;
+            this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataRecieved);
             // 
             // Date_Timer
             // 
@@ -830,7 +844,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClientSize = new System.Drawing.Size(1346, 139);
+            this.ClientSize = new System.Drawing.Size(1346, 745);
             this.Controls.Add(this.panelHeader);
             this.Controls.Add(this.panelConfig);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
@@ -838,6 +852,7 @@
             this.Text = "GTI";
             this.Load += new System.EventHandler(this.GTI_Load);
             this.panelFooter.ResumeLayout(false);
+            this.panelFooter.PerformLayout();
             this.panelHeader.ResumeLayout(false);
             this.panelHeader.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -900,6 +915,7 @@
         private System.Windows.Forms.Timer cycleTimer;
         private System.Windows.Forms.Panel panelComIndicator;
         private System.Windows.Forms.Timer rxtxTimerHome;
+        private System.Windows.Forms.Label labelInstruction;
     }
 }
 

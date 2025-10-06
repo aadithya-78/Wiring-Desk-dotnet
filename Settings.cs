@@ -19,6 +19,7 @@ namespace Wiring_Desk
         private Panel panelToolbar;
         private Panel panelFooter;
         private Panel panelPicConfig;
+        private GTI parentForm;
 
         public Settings(Panel panel, Panel _panelConfig, Panel _panelToolbar, Panel _panelFooter, Panel _panelPicConfig)
         {
@@ -28,6 +29,11 @@ namespace Wiring_Desk
             panelToolbar = _panelToolbar;
             panelFooter = _panelFooter;
             panelPicConfig = _panelPicConfig;
+        }
+
+        public void SetParentForm(GTI form)
+        {
+            parentForm = form;
         }
 
         private void Settings_Load(object sender, EventArgs e)
@@ -42,6 +48,11 @@ namespace Wiring_Desk
                 if (parentPanel == null)
                     throw new Exception("Parent panel reference missing.");
                     parentPanel.Controls.Clear();
+
+                   DummyUC dummy = new DummyUC();
+                   dummy.Dock = DockStyle.Fill;
+                   parentPanel.Controls.Add(dummy);
+                   parentForm?.Reset(); 
             }
             catch (Exception ex)
             {

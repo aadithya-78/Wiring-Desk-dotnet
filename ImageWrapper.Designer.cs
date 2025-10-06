@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.rounded_Button1 = new Wiring_Desk.Rounded_Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.pbBin = new System.Windows.Forms.PictureBox();
             this.pbCon = new System.Windows.Forms.PictureBox();
+            this.rxtxTimer = new System.Windows.Forms.Timer(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbBin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCon)).BeginInit();
@@ -87,6 +89,11 @@
             this.pbCon.TabStop = false;
             this.pbCon.Paint += new System.Windows.Forms.PaintEventHandler(this.pbCon_paint);
             // 
+            // rxtxTimer
+            // 
+            this.rxtxTimer.Interval = 50;
+            this.rxtxTimer.Tick += new System.EventHandler(this.rxtxTimer_Tick);
+            // 
             // ImageWrapper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -110,5 +117,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.PictureBox pbBin;
         private System.Windows.Forms.PictureBox pbCon;
+        private System.Windows.Forms.Timer rxtxTimer;
     }
 }

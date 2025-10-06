@@ -114,6 +114,12 @@
     <Compile Include="DeleteUserForm.Designer.cs">
       <DependentUpon>DeleteUserForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DummyUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DummyUC.Designer.cs">
+      <DependentUpon>DummyUC.cs</DependentUpon>
+    </Compile>
     <Compile Include="ImageWrapper.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -170,6 +176,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DeleteUserForm.resx">
       <DependentUpon>DeleteUserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DummyUC.resx">
+      <DependentUpon>DummyUC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ImageWrapper.resx">
       <DependentUpon>ImageWrapper.cs</DependentUpon>
