@@ -56,7 +56,6 @@ namespace Wiring_Desk
             startupRunning = true;
 
             serialPort1.DataReceived += serialPort1_DataRecieved;
-
             InitializeContextMenu();
             guna2Button1.MouseUp += Guna2Button1_MouseUp;
         }
@@ -98,6 +97,8 @@ namespace Wiring_Desk
                 allCon.Dock = DockStyle.Fill;
                 panelUserControl.Controls.Add(allCon);
                 allCon.LoadImagesFromProcess(selectedFile);
+                if (allCon != null) allCon.startTriggered = false; //HW START PUSH BUTTON FLAG
+                allCon.StartRequested += HandleStartRequested; //HW START PUSH BUTTON 
                 labelInstruction.Text = "PLACE ALL CONNECTOR AND START THE PROGRAM";
                 rxtxTimerHome.Stop();
                 btnStart.Enabled = true;
@@ -140,6 +141,12 @@ namespace Wiring_Desk
                     targetCycleTimeInSeconds = 0;
                     MessageBox.Show("Error reading target cycle time: " + ex.Message);
                 }
+            }
+            else
+            {
+                DummyUC dummy = new DummyUC();
+                dummy.Dock = DockStyle.Fill;
+                panelUserControl.Controls.Add(dummy);
             }
         }
 
@@ -241,6 +248,7 @@ namespace Wiring_Desk
                 labelInstruction.Text = "PLACE ALL CONNECTOR AND START THE PROGRAM";
                 rxtxTimerHome.Stop();
                 btnStart.Enabled = true;
+                allCon.StartRequested += HandleStartRequested; //HW START PUSH BUTTON 
 
                 try
                 {
@@ -624,7 +632,12 @@ namespace Wiring_Desk
             }
         }
 
-       private void btnSettings_Click(object sender, EventArgs e)
+        private void HandleStartRequested()
+        {
+            btnStart_Click(null, EventArgs.Empty);
+        }
+
+        private void btnSettings_Click(object sender, EventArgs e)
         {
             panelUserControl.Controls.Clear();
             Settings settings = new Settings(panelUserControl, panelConfig, panelToolbar, panelFooter, panelPicConfig);

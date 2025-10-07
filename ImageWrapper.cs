@@ -20,11 +20,13 @@ namespace Wiring_Desk
         private int currentRowIndex = 5;
         private List<PinPoint> points = new List<PinPoint>();
         private SerialPort serialPort1;
-        private bool rowIndexChanged = false;
         public int relay_flag = 0; 
         private byte[] rxBuffer = new byte[0];
         private bool rowAdvanced = false;
+        private bool rowAdvancedEcon = false;
         public event Action<int, string> StepChanged;
+        private Queue<int> UARTSequence = new Queue<int>();
+        private bool blueOffFlag = false;
 
         public int CurrentRowIndex
         {
@@ -35,7 +37,11 @@ namespace Wiring_Desk
                 {
                     currentRowIndex = value;
                     LoadImagesForCurrentRow();
-                    rowIndexChanged = true;
+                    UARTSequence.Enqueue(3);
+                    UARTSequence.Enqueue(3);
+                    UARTSequence.Enqueue(4);
+                    UARTSequence.Enqueue(5);
+                    blueOffFlag = true;
                     string instruction = processCsv[CurrentRowIndex][7];
                     StepChanged?.Invoke(CurrentRowIndex - 4, instruction);
                 }
@@ -49,6 +55,11 @@ namespace Wiring_Desk
             processCsv = loadedCsv;
             LoadImagesForCurrentRow();
             pbCon.Paint += pbCon_paint;
+
+            UARTSequence.Enqueue(3);
+            UARTSequence.Enqueue(4);
+            UARTSequence.Enqueue(5);
+            UARTSequence.Enqueue(6);
 
             serialPort1 = _serialPort1;
             rxtxTimer.Start();
@@ -295,35 +306,55 @@ namespace Wiring_Desk
 
             string conName = row[3];
 
-            if (!conName.StartsWith("CON-", StringComparison.OrdinalIgnoreCase)) return;
-
-            string[] parts = conName.Split('-');
-            if (parts.Length == 0) return;
-
-            if (!int.TryParse(parts[1], out int conNum)) return;
-
-            int dataIndex = 7 + (conNum - 1);  
-            if (dataIndex >= frame.Length - 1) return;
-
-            byte value = frame[dataIndex];
-          
-            if (value == 0x07 && !rowAdvanced)
+            if (conName.StartsWith("CON-", StringComparison.OrdinalIgnoreCase))
             {
-                if (CurrentRowIndex + 1 < processCsv.Count)
+
+                string[] parts = conName.Split('-');
+                if (parts.Length == 0) return;
+
+                if (!int.TryParse(parts[1], out int conNum)) return;
+
+                int dataIndex = 7 + (conNum - 1);
+                if (dataIndex >= frame.Length - 1) return;
+
+                byte value = frame[dataIndex];
+
+                if (value == 0x07 && !rowAdvanced)
                 {
-                    CurrentRowIndex++;
-                    LoadImagesForCurrentRow();
-                    MessageBox.Show($"Limit switch pressed going to {CurrentRowIndex - 4} Con number is {conName}");
-                    rowIndexChanged = true;
-                    rowAdvanced = true;
-                    string instruction = processCsv[CurrentRowIndex][7];
-                    StepChanged?.Invoke(CurrentRowIndex - 4, instruction);
+                    if (CurrentRowIndex + 1 < processCsv.Count)
+                    {
+                        rowAdvanced = true;
+                        CurrentRowIndex++;
+                    }
+                }
+                else if (value != 0x07)
+                {
+                    rowAdvanced = false;
                 }
             }
-            else if (value != 0x07)
+
+            else if (conName.StartsWith("E-CON", StringComparison.OrdinalIgnoreCase))
             {
-                rowAdvanced = false;
-                rowIndexChanged = false;
+                int dataIndex = 5;
+                if (dataIndex >= frame.Length - 1) return;
+                byte value = frame[dataIndex];
+
+                if (value == 0x01 && !rowAdvancedEcon)
+                {
+                    if (CurrentRowIndex + 1 < processCsv.Count)
+                    {
+                        rowAdvancedEcon = true;
+                        CurrentRowIndex++;
+                        
+                    }
+
+                }
+
+                else if (value == 0x00)
+                {
+                    rowAdvancedEcon = false;
+                }
+
             }
         }
 
@@ -333,21 +364,29 @@ namespace Wiring_Desk
             if (processCsv == null || currentRowIndex >= processCsv.Count) return;
 
             var row = processCsv[currentRowIndex];
-           
+
+            if (UARTSequence.Count > 0)
+            {
+                relay_flag = UARTSequence.Dequeue();
+            }
+            else if (UARTSequence.Count == 0)
+            {
+                relay_flag = 0;
+            }
+
             switch (relay_flag)
             {
-                case 1: 
+                case 1: //Warning Alarm ON 
                     {
-                        if (serialPort1?.IsOpen == true)
+                        if (serialPort1?.IsOpen == true) 
                         {
                             serialPort1.Write(new byte[] { 0x27, 0x05, 0x85, 0x01, 0x06, 0x03, 0x01, 0x16 }, 0, 8);
                         }
                         relay_flag = 0;
                         break;
                     }
-                  
 
-                case 2: 
+                case 2: //Warning Alarm OFF
                     {
                         if (serialPort1?.IsOpen == true)
                         {
@@ -356,13 +395,51 @@ namespace Wiring_Desk
                         relay_flag = 0;
                         break;
                     }
+
+                case 3: //LED OFF 
+                    {
+                        if (serialPort1?.IsOpen == true)
+                        {
+                            serialPort1.Write(new byte[] { 0x27, 0x04, 0x85, 0x01, 0x03, 0x00,0x16 }, 0, 7);
+                        }
+                        relay_flag = 0;
+                        break;
+                    }
+
+                case 4: //E-CON OR START STATUS RESET
+                    {
+                        if (serialPort1?.IsOpen == true)
+                        {
+                            serialPort1.Write(new byte[] { 0x27, 0x04, 0x85, 0x01, 0x09, 0x00, 0x16 }, 0, 7);
+                        }
+                        relay_flag = 0;
+                        break;
+                    }
+
+                case 5: //BLUE LIGHT ON
+                    {
+                        if (serialPort1?.IsOpen == true)
+                        {
+                            serialPort1.Write(new byte[] { 0x27, 0x05, 0x85, 0x01, 0x06, 0x06, 0x01, 0x16 }, 0, 8);
+                        }
+                        relay_flag = 0;
+                        break;
+                    }
+
+                case 6: //BLUE LIGHT OFF
+                    {
+                        if (serialPort1?.IsOpen == true)
+                        {
+                            serialPort1.Write(new byte[] { 0x27, 0x05, 0x85, 0x01, 0x06, 0x06, 0x00, 0x16 }, 0, 8);
+                        }
+                        relay_flag = 0;
+
+                        break;
+                    }
                 
                 default:
-
                     if (serialPort1 != null && serialPort1.IsOpen)
                     {
-                        if (!rowIndexChanged)
-                        {
                             if (sendCmdNext)
                             {
                                 var packet1 = ConstructRowPacket(row);
@@ -373,14 +450,13 @@ namespace Wiring_Desk
                                 var packet2 = ConstructRowPacketAlt(row);
                                 serialPort1.Write(packet2, 0, packet2.Length);
                             }
-                            sendCmdNext = !sendCmdNext;
-                        }
-                        else
-                        {
-                            byte[] flagPacket = { 0x27, 0x04, 0x85, 0x01, 0x3A, 0x00, 0x16 };
-                            serialPort1.Write(flagPacket, 0, flagPacket.Length);
-                            rowIndexChanged = false;
-                        }
+                        sendCmdNext = !sendCmdNext;
+                    }
+
+                    if (blueOffFlag == true)
+                    {
+                        blueOffFlag = false;
+                        UARTSequence.Enqueue(6);
                     }
                     break;
             }

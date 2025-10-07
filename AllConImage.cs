@@ -26,7 +26,8 @@ namespace Wiring_Desk
         public List<byte> conValuesTx = new List<byte>();
         public List<byte> binValuesTx = new List<byte>();
         private byte[] rxBuffer = new byte[0];
- 
+
+        public event Action StartRequested;
 
         private SerialPort serialPort1;
 
@@ -413,7 +414,6 @@ namespace Wiring_Desk
             }
         }
 
-
         private byte[] conBurstPacket(int conCount, List<byte> conValues)
         {
          if (conValues == null || conValues.Count == 0)
@@ -493,10 +493,26 @@ namespace Wiring_Desk
             rxBuffer = rxBuffer.Concat(data).ToArray();
         }
 
+        public bool startTriggered = false;
+
+        private void OnStartRequested()
+        {
+            if (startTriggered) return;
+            startTriggered = true;
+            StartRequested?.Invoke();
+        }
+
         private void ParseFrame(byte[] frame)
         {
             if (frame.Length < 10) return;
             if (frame[0] != 0x27 || frame[frame.Length - 1] != 0x16) return;
+
+            if (frame.Length > 5 && frame[5] == 0x01)
+            {
+                OnStartRequested();
+            }
+
+
 
             for (int i = 0; i < conValuesTx.Count; i++)
             {

@@ -35,7 +35,6 @@
             // rounded_Button1
             // 
             this.rounded_Button1.BackColor = System.Drawing.Color.Transparent;
-            this.rounded_Button1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.rounded_Button1.CornerRadius = 20;
             this.rounded_Button1.EndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.rounded_Button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
