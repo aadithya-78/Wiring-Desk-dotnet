@@ -145,6 +145,7 @@
       <DependentUpon>Picture_Config.cs</DependentUpon>
     </Compile>
     <Compile Include="ProcessReader.cs" />
+    <Compile Include="processState.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rounded Button.cs">

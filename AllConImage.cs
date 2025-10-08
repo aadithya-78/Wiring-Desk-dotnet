@@ -26,7 +26,7 @@ namespace Wiring_Desk
         public List<byte> conValuesTx = new List<byte>();
         public List<byte> binValuesTx = new List<byte>();
         private byte[] rxBuffer = new byte[0];
-
+     
         public event Action StartRequested;
 
         private SerialPort serialPort1;
@@ -37,10 +37,21 @@ namespace Wiring_Desk
             InitializePictureGrid();
             relayTimer.Start();
             UARTSequence.Enqueue(7);
+            UARTSequence.Enqueue(11);
+            UARTSequence.Enqueue(8);
+            UARTSequence.Enqueue(9);
+            UARTSequence.Enqueue(10);
             UARTSequence.Enqueue(2);
             UARTSequence.Enqueue(3);
             UARTSequence.Enqueue(2);
             UARTSequence.Enqueue(6);
+
+            conCount = 0;
+            binCount = 0;
+            conValuesTx.Clear();
+            binValuesTx.Clear();
+
+            processState.userControl = "ACI";
 
             conValuesTx = ProcessReader.Process_CSV
                 .Skip(5)
@@ -245,104 +256,9 @@ namespace Wiring_Desk
             packet[index] = 0x16;
             return packet;
         }
-        /*private void relayTimer_Tick(object sender, EventArgs e)
-        {
-
-            if (startupRunning && UARTSequence.Count > 0)
-            {
-                relay_flags = UARTSequence.Dequeue();
-            }
-            else if (startupRunning && UARTSequence.Count == 0)
-            {
-                startupRunning = false;
-                relayTimer.Stop();
-                rxtxTimer.Start();
-                borderTimer.Start();
-            }
-
-            switch (relay_flags)
-            {
-                case 1: // Yellow Relay On
-                    {
-                        if (serialPort1 != null && serialPort1.IsOpen)
-                        {
-                            byte[] packet = { 0x27, 0x05, 0x85, 0x01, 0x06, 0x01, 0x01, 0x16 };
-                            serialPort1.Write(packet, 0, packet.Length);
-                        }
-                        break;
-                    }
-                case 2: // Yellow Relay Off
-                    {
-                        if (serialPort1 != null && serialPort1.IsOpen)
-                        {
-                            byte[] packet = { 0x27, 0x05, 0x85, 0x01, 0x06, 0x01, 0x00, 0x16 };
-                            serialPort1.Write(packet, 0, packet.Length);
-                        }
-                        break;
-                    }
-
-                case 3: // Green Relay On
-                    {
-                        if (serialPort1 != null && serialPort1.IsOpen)
-                        {
-                            byte[] packet = { 0x27, 0x05, 0x85, 0x01, 0x06, 0x02, 0x01, 0x16 };
-                            serialPort1.Write(packet, 0, packet.Length);
-                        }
-                        break;
-                    }
-                case 4: // Green relay off
-                    {
-                        if (serialPort1 != null && serialPort1.IsOpen)
-                        {
-                            byte[] packet = { 0x27, 0x05, 0x85, 0x01, 0x06, 0x02, 0x00, 0x16 };
-                            serialPort1.Write(packet, 0, packet.Length);
-                        }
-                        break;
-                    }
-
-                case 5: // Red Relay On
-                    {
-                        if (serialPort1 != null && serialPort1.IsOpen)
-                        {
-                            byte[] packet = { 0x27, 0x05, 0x85, 0x01, 0x06, 0x03, 0x01, 0x16 };
-                            serialPort1.Write(packet, 0, packet.Length);
-                        }
-                        break;
-                    }
-                case 6: // Red Relay Off
-                    {
-                        if (serialPort1 != null && serialPort1.IsOpen)
-                        {
-                            byte[] packet = { 0x27, 0x05, 0x85, 0x01, 0x06, 0x03, 0x00, 0x16 };
-                            serialPort1.Write(packet, 0, packet.Length);
-                        }
-                        break;
-                    }
-                case 7:
-
-                    {
-                        byte[] dataPacket = ConstructPacket(conCount);
-                        if (serialPort1 != null && serialPort1.IsOpen)
-                        {
-                            serialPort1.Write(dataPacket, 0, dataPacket.Length);
-                        }
-                        break;
-                    }
-
-                default:
-                    if (serialPort1 != null && serialPort1.IsOpen)
-                    {
-                        byte[] packet = { 0x27, 0x04, 0x85, 0x01, 0x00, 0x00, 0x16 };
-                        serialPort1.Write(packet, 0, packet.Length);
-                    }
-                    break;
-            }
-        }
-        */
-
+      
         private void relayTimer_Tick(object sender, EventArgs e)
         {
-            // During startup
             if (startupRunning && UARTSequence.Count > 0)
             {
                 relay_flags = UARTSequence.Dequeue();
@@ -367,7 +283,6 @@ namespace Wiring_Desk
                 }
             }
 
-            // Process relay_flags only if set
             switch (relay_flags)
             {
                 case 1: // Yellow Relay On
@@ -406,6 +321,24 @@ namespace Wiring_Desk
                         byte[] dataPacket = ConstructPacket(conCount);
                         serialPort1.Write(dataPacket, 0, dataPacket.Length);
                     }
+                    break;
+
+                case 8: //LED Off
+                    if (serialPort1?.IsOpen == true)
+                        serialPort1.Write(new byte[] { 0x27, 0x04, 0x85, 0x01, 0x03, 0x00, 0x16 }, 0, 7);
+                    break;
+
+                case 9://E-CON or START CLEAR
+                    if (serialPort1?.IsOpen == true)
+                        serialPort1.Write(new byte[] { 0x27, 0x04, 0x85, 0x01, 0x09, 0x00, 0x16 }, 0, 7);
+                    break;
+
+                case 10:
+                    if (serialPort1?.IsOpen == true)
+                        serialPort1.Write(new byte[] { 0x27, 0x04, 0x85, 0x01, 0x05, 0x00, 0x16 }, 0, 7);
+                    break;
+
+                case 11: //Dummy Sequence to produce 50ms delay
                     break;
 
                 default:
@@ -481,6 +414,11 @@ namespace Wiring_Desk
                 }
             }
 
+        public void startTimers()
+        {
+            relayTimer.Start();
+        }
+
         public void stopTimers()
         {
             rxtxTimer.Stop();
@@ -512,8 +450,6 @@ namespace Wiring_Desk
                 OnStartRequested();
             }
 
-
-
             for (int i = 0; i < conValuesTx.Count; i++)
             {
                 byte conNum = conValuesTx[i];          
@@ -537,7 +473,6 @@ namespace Wiring_Desk
             foreach (var pb in pictureBoxes)
                 pb?.Invalidate();
         }
-
 
         private PictureBox GetConPictureBox(int index)
         {

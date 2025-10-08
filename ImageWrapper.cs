@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.IO.Ports;
 using System.Linq;
+using System.Runtime.Hosting;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -27,6 +28,8 @@ namespace Wiring_Desk
         public event Action<int, string> StepChanged;
         private Queue<int> UARTSequence = new Queue<int>();
         private bool blueOffFlag = false;
+        public event Action OnProcessComplete;
+        private bool actualIncrFlag = false;
 
         public int CurrentRowIndex
         {
@@ -200,9 +203,6 @@ namespace Wiring_Desk
 
         public void stopTimers()
         {
-            byte[] flagPacket = { 0x27, 0x04, 0x85, 0x01, 0x3A, 0x00, 0x16 };
-            serialPort1.Write(flagPacket, 0, flagPacket.Length);
-
             rxtxTimer.Stop();
         }
 
@@ -295,12 +295,24 @@ namespace Wiring_Desk
             }
         }
 
+
+        public bool processComplete = false;
+
+        private void OnProcessCompleted()
+        {
+            if (processComplete) return;
+            processComplete = true;
+            processState.actualCount++;
+            OnProcessComplete?.Invoke();
+        }
+
         private void ParseFrame(byte[] frame)
         {
             if (frame.Length < 10) return;
             if (frame[0] != 0x27 || frame[frame.Length - 1] != 0x16) return;
 
             if (processCsv == null || currentRowIndex >= processCsv.Count) return;
+
             var row = processCsv[currentRowIndex];
             if (row.Count < 4) return;
 
@@ -326,6 +338,15 @@ namespace Wiring_Desk
                         rowAdvanced = true;
                         CurrentRowIndex++;
                     }
+                    else
+                    {
+                       if (!actualIncrFlag)
+                        {
+                            UARTSequence.Enqueue(3);
+                            actualIncrFlag = true;
+                            OnProcessCompleted();
+                        }
+                    }
                 }
                 else if (value != 0x07)
                 {
@@ -346,6 +367,15 @@ namespace Wiring_Desk
                         rowAdvancedEcon = true;
                         CurrentRowIndex++;
                         
+                    }
+                    else
+                    {
+                       if (!actualIncrFlag)
+                        {
+                            UARTSequence.Enqueue(4);
+                            actualIncrFlag = true;
+                            OnProcessCompleted();
+                        }
                     }
 
                 }

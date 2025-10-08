@@ -65,6 +65,7 @@
             this.Controls.Add(this.rounded_Button1);
             this.Name = "DummyUC";
             this.Size = new System.Drawing.Size(1366, 493);
+            this.Load += new System.EventHandler(this.DummyUC_Load);
             this.ResumeLayout(false);
 
         }

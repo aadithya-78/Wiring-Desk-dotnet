@@ -20,10 +20,15 @@ namespace Wiring_Desk
         private int targetCycleTimeInSeconds = 0;
         private int actualCycleTimeInSeconds = 0;
         private ImageWrapper imgWrapper;
+        private AllConImage allCon;
+        private DummyUC dummy;
+
         private int hw_flags = 1;
         private Queue<int> UARTSequence = new Queue<int>();
         private bool startupRunning = false;
-        private AllConImage allCon;
+        
+        private byte[] rxBuffer = new byte[0];
+
 
         public GTI()
 
@@ -32,8 +37,9 @@ namespace Wiring_Desk
             LoadProcessDesk();
             LoadConfig();
             SerialInit();
-     
-            DummyUC dummy = new DummyUC();
+            UpdateShift();
+
+            dummy = new DummyUC();
             dummy.Dock = DockStyle.Fill;
             panelUserControl.Controls.Add(dummy);
 
@@ -46,6 +52,7 @@ namespace Wiring_Desk
             Date_Timer.Start();
 
             rxtxTimerHome.Start();
+
             UARTSequence.Enqueue(2);
             UARTSequence.Enqueue(4);
             UARTSequence.Enqueue(6);
@@ -65,7 +72,7 @@ namespace Wiring_Desk
             LoadUI();
            
         }
-
+      
         async public void Reset()
         {
             actualCycleTimeInSeconds = 0;
@@ -75,6 +82,8 @@ namespace Wiring_Desk
             btnStepDecr.Enabled = false;
             btnStepIncr.Enabled = false;
             lblStepIndicator.Text = "";
+            lblActualCount.Text = processState.actualCount.ToString();
+            lblActualCount.SelectionAlignment = HorizontalAlignment.Center;
 
             imgWrapper?.stopTimers();
             rxtxTimerHome.Start();
@@ -86,21 +95,44 @@ namespace Wiring_Desk
             UARTSequence.Enqueue(7);
             startupRunning = true;
 
+            deskChanged();
+        }
 
+        private void selectDesk_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            deskChanged();
+        }
+
+        private void deskChanged()
+        {
             if (selectDesk.SelectedItem != null)
             {
                 string selectedFile = selectDesk.SelectedItem.ToString();
                 ProcessReader.LoadProcess(selectedFile);
+
+                if (allCon != null)
+                {
+                    allCon.stopTimers();          
+                    panelUserControl.Controls.Clear(); 
+                    allCon.Dispose();            
+                    allCon = null;
+                }
+              
                 panelUserControl.Controls.Clear();
                 allCon = new AllConImage(serialPort1);
                 allCon.SetParentForm(this);
                 allCon.Dock = DockStyle.Fill;
                 panelUserControl.Controls.Add(allCon);
+
+                allCon.startTimers();
                 allCon.LoadImagesFromProcess(selectedFile);
-                if (allCon != null) allCon.startTriggered = false; //HW START PUSH BUTTON FLAG
-                allCon.StartRequested += HandleStartRequested; //HW START PUSH BUTTON 
+
+
+                if (allCon != null) allCon.startTriggered = false; //Hardware start push button flag
+                allCon.StartRequested += HandleStartRequested; //hardware start push button task
+
                 labelInstruction.Text = "PLACE ALL CONNECTOR AND START THE PROGRAM";
-                rxtxTimerHome.Stop();
+                rxtxTimerHome.Stop(); //Stops 50ms mainform heartbeat
                 btnStart.Enabled = true;
 
                 try
@@ -125,14 +157,14 @@ namespace Wiring_Desk
                         {
                             lblTargetCycleTime.Text = "";
                             targetCycleTimeInSeconds = 0;
-                            MessageBox.Show("Target cycle time column missing in ConfigCSV.");
+                            MessageBox.Show("Target cycle time column missing in Config CSV.");
                         }
                     }
                     else
                     {
                         lblTargetCycleTime.Text = "";
                         targetCycleTimeInSeconds = 0;
-                        MessageBox.Show("Target cycle time row missing in ConfigCSV.");
+                        MessageBox.Show("Target cycle time row missing in Config CSV.");
                     }
                 }
                 catch (Exception ex)
@@ -144,7 +176,7 @@ namespace Wiring_Desk
             }
             else
             {
-                DummyUC dummy = new DummyUC();
+                dummy = new DummyUC();
                 dummy.Dock = DockStyle.Fill;
                 panelUserControl.Controls.Add(dummy);
             }
@@ -231,66 +263,6 @@ namespace Wiring_Desk
                 btnTime.Text = DateTime.Now.ToLongTimeString();
             }
         }
-
-        private void selectDesk_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-            if (selectDesk.SelectedItem != null)
-            {
-                string selectedFile = selectDesk.SelectedItem.ToString();
-                ProcessReader.LoadProcess(selectedFile);
-                panelUserControl.Controls.Clear();
-                allCon = new AllConImage(serialPort1);
-                allCon.SetParentForm(this);
-                allCon.Dock = DockStyle.Fill;
-                panelUserControl.Controls.Add(allCon);
-                allCon.LoadImagesFromProcess(selectedFile);
-                labelInstruction.Text = "PLACE ALL CONNECTOR AND START THE PROGRAM";
-                rxtxTimerHome.Stop();
-                btnStart.Enabled = true;
-                allCon.StartRequested += HandleStartRequested; //HW START PUSH BUTTON 
-
-                try
-                {
-                    if (ConfigReader.ConfigCSV.Count > 3)
-                    {
-                        var row = ConfigReader.ConfigCSV[3]; 
-                        if (row != null && row.Count > 3)
-                        {
-                            if (!int.TryParse(row[2], out int minutes))
-                                minutes = 0;
-                            if (!int.TryParse(row[3], out int seconds))
-                                seconds = 0;
-                            lblTargetCycleTime.Text = $"{minutes:D2}:{seconds:D2}";
-                            targetCycleTimeInSeconds = minutes * 60 + seconds;
-
-                            actualCycleTimeInSeconds = 0; 
-                            lblActualTargetTime.ForeColor = Color.Black;
-                            cycleTimer.Start();
-                        }
-                        else
-                        {
-                            lblTargetCycleTime.Text = "00:00";
-                            targetCycleTimeInSeconds = 0;
-                            MessageBox.Show("Target cycle time column missing in ConfigCSV.");
-                        }
-                    }
-                    else
-                    {
-                        lblTargetCycleTime.Text = "00:00";
-                        targetCycleTimeInSeconds = 0;
-                        MessageBox.Show("Target cycle time row missing in ConfigCSV.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    lblTargetCycleTime.Text = "00:00";
-                    targetCycleTimeInSeconds = 0;
-                    MessageBox.Show("Error reading target cycle time: " + ex.Message);
-                }
-            }
-        }
-
 
         private void cycleTimer_Tick(object sender, EventArgs e)
         {
@@ -395,9 +367,10 @@ namespace Wiring_Desk
             else if (startupRunning && UARTSequence.Count == 0)
             {
                 startupRunning = false;
+                hw_flags = 1;
             }
 
-            switch (hw_flags)
+            switch (hw_flags) //2,5,7,8,9,10
             {
                 case 1://Heart Beat
                     if (serialPort1 != null && serialPort1.IsOpen)
@@ -469,6 +442,28 @@ namespace Wiring_Desk
                         }
                         break;
                     }
+
+                case 8: //LED Off
+                    if (serialPort1?.IsOpen == true)
+                    {
+                        serialPort1.Write(new byte[] { 0x27, 0x04, 0x85, 0x01, 0x03, 0x00, 0x16 }, 0, 7);
+                    }
+                    break;
+
+                case 9://E-CON or START CLEAR
+                    if (serialPort1?.IsOpen == true)
+                    {
+                        serialPort1.Write(new byte[] { 0x27, 0x04, 0x85, 0x01, 0x09, 0x00, 0x16 }, 0, 7);
+                    }
+                    break;
+
+                case 10:
+                    if (serialPort1?.IsOpen == true)
+                    {
+                        serialPort1.Write(new byte[] { 0x27, 0x04, 0x85, 0x01, 0x05, 0x00, 0x16 }, 0, 7);
+                    }
+                    break;
+
 
                 default:
                     if (serialPort1 != null && serialPort1.IsOpen)
@@ -570,7 +565,7 @@ namespace Wiring_Desk
 
         private void btnReset_Click(object sender, EventArgs e)
         {
-            var result = MessageBox.Show(
+            /*var result = MessageBox.Show(
             "Are you sure you want to reset?",   // message
             "Confirm Reset",                     // title
             MessageBoxButtons.YesNo,             // Yes and No buttons
@@ -579,7 +574,43 @@ namespace Wiring_Desk
             if (result == DialogResult.Yes)
             {
                 Reset();  
-            }
+            }*/
+            panelUserControl.Controls.Clear();
+            Reset();
+        }
+
+        private void HandleProcessComplete()
+        {
+            imgWrapper?.stopTimers();
+            panelUserControl.Controls.Clear();
+            rxtxTimerHome.Start();
+            UARTSequence.Enqueue(9);
+            UARTSequence.Enqueue(2);
+            UARTSequence.Enqueue(5);
+            UARTSequence.Enqueue(7);
+            UARTSequence.Enqueue(8);
+            UARTSequence.Enqueue(9);
+            UARTSequence.Enqueue(10);
+            startupRunning = true;
+
+            dummy = new DummyUC();
+            dummy.Dock = DockStyle.Fill;
+            panelUserControl.Controls.Add(dummy);
+            dummy.StartRequested += HandleStartRequested;
+
+            actualCycleTimeInSeconds = 0;
+            targetCycleTimeInSeconds = 0;
+            lblActualTargetTime.Text = "";
+            lblTargetCycleTime.Text = "";
+            cycleTimer.Stop();
+            lblTargetCycleTime.Text = "";
+            btnStepDecr.Enabled = false;
+            btnStepIncr.Enabled = false;
+            lblStepIndicator.Text = "";
+            labelInstruction.Text = $"PRESS START TO RUN {selectDesk.SelectedItem.ToString()} OR SCAN NEW DESK";
+            lblActualCount.Text = processState.actualCount.ToString();
+            lblActualCount.SelectionAlignment = HorizontalAlignment.Center;
+  
         }
 
         private void ImgWrapper_StepChanged(int stepNumber, string instruction)
@@ -589,7 +620,7 @@ namespace Wiring_Desk
                 lblStepIndicator.Invoke(new Action(() =>
                 {
                     lblStepIndicator.Text = stepNumber.ToString();
-                    labelInstruction.Text = instruction;  // update instruction
+                    labelInstruction.Text = instruction;  
                 }));
             }
             else
@@ -602,33 +633,46 @@ namespace Wiring_Desk
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            try
-            {
-                panelUserControl.Controls.Clear();
-                string selectedFile = selectDesk.SelectedItem.ToString();
-                allCon.stopTimers();
-                byte[] packet = { 0x27, 0x04, 0x85, 0x01, 0x3A, 0x00, 0x16 };
-                serialPort1.Write(packet, 0, packet.Length);
 
-                if (string.IsNullOrWhiteSpace(selectedFile))
+            if (processState.userControl == "ACI")
+            {
+                processState.userControl = "";
+                try
                 {
-                    MessageBox.Show("Select a desk first.");
-                    return;
+                    panelUserControl.Controls.Clear();
+                    string selectedFile = selectDesk.SelectedItem.ToString();
+                    allCon.stopTimers();
+                    byte[] packet = { 0x27, 0x04, 0x85, 0x01, 0x3A, 0x00, 0x16 };
+                    serialPort1.Write(packet, 0, packet.Length);
+
+                    if (string.IsNullOrWhiteSpace(selectedFile))
+                    {
+                        MessageBox.Show("Select a desk first.");
+                        return;
+                    }
+
+                    ProcessReader.LoadProcess(selectedFile);
+                    imgWrapper = new ImageWrapper(selectedFile, ProcessReader.Process_CSV, serialPort1);
+                    imgWrapper.StepChanged += ImgWrapper_StepChanged;
+                    imgWrapper.OnProcessComplete += HandleProcessComplete;
+                    imgWrapper.processComplete = false;
+                    imgWrapper.Dock = DockStyle.Fill;
+                    panelUserControl.Controls.Add(imgWrapper);
+                    btnStepDecr.Enabled = true;
+                    btnStepIncr.Enabled = true;
+                    lblStepIndicator.Text = "1";
+
                 }
-
-                ProcessReader.LoadProcess(selectedFile);
-                imgWrapper = new ImageWrapper(selectedFile, ProcessReader.Process_CSV, serialPort1);
-                imgWrapper.StepChanged += ImgWrapper_StepChanged;
-                imgWrapper.Dock = DockStyle.Fill;
-                panelUserControl.Controls.Add(imgWrapper);
-                btnStepDecr.Enabled = true;
-                btnStepIncr.Enabled = true;
-                lblStepIndicator.Text = "1"; 
-
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Please select a process before starting. " + ex.Message);
+                }
             }
-            catch (Exception ex)
+
+            else if(processState.userControl == "DUMMY")
             {
-                MessageBox.Show("Please select a process before starting. " + ex.Message);
+                processState.userControl = "";
+                deskChanged();
             }
         }
 
@@ -651,7 +695,6 @@ namespace Wiring_Desk
         {
             this.Close();
         }
-
 
         private void Guna2Button1_MouseUp(object sender, MouseEventArgs e)
         {
@@ -690,14 +733,94 @@ namespace Wiring_Desk
                 byte[] buffer = new byte[bytesToRead];
                 serialPort1.Read(buffer, 0, buffer.Length);
 
-                allCon?.HandleReceivedData(buffer);
-                imgWrapper?.HandleReceivedData(buffer);
+                this.Invoke(new Action(() =>
+                {
+                    allCon?.HandleReceivedData(buffer);
+                    imgWrapper?.HandleReceivedData(buffer);
+                    dummy?.HandleReceivedData(buffer);
+                }));
             }
             catch (Exception ex)
             {
                 MessageBox.Show("RX Error: " + ex.Message);
             }
         }
+
+        /*-----------------------------------------------------SHIFT----------------------------------------------------------------*/
+
+        private void UpdateShift()
+        {
+            try
+            {
+                int numShifts = int.Parse(ConfigReader.Get(10, 10));
+                DateTime now = DateTime.Now;
+                string currentShift = "-";
+
+                for (int i = 0; i < numShifts; i++)
+                {
+                    int row = 11 + i;
+                    int startH = int.Parse(ConfigReader.Get(row, 10)); 
+                    int startM = int.Parse(ConfigReader.Get(row, 11));
+                    int endH = int.Parse(ConfigReader.Get(row, 13)); 
+                    int endM = int.Parse(ConfigReader.Get(row, 14));
+
+                    DateTime startTime = new DateTime(now.Year, now.Month, now.Day, startH, startM, 0);
+                    DateTime endTime = new DateTime(now.Year, now.Month, now.Day, endH, endM, 0);
+
+                    if (endTime < startTime)
+                        endTime = endTime.AddDays(1);
+
+                    if (now >= startTime && now <= endTime)
+                    {
+                        currentShift = $"Shift {(char)('A' + i)}";
+                        break;
+                    }
+                }
+
+                btnShift.Text = currentShift;
+                CheckShiftCollision(numShifts);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error determining shift: " + ex.Message);
+            }
+        }
+
+        private void CheckShiftCollision(int numShifts)
+        {
+            for (int i = 0; i < numShifts; i++)
+            {
+                int row1 = 11 + i;
+                int sH1 = int.Parse(ConfigReader.Get(row1, 10));
+                int sM1 = int.Parse(ConfigReader.Get(row1, 11));
+                int eH1 = int.Parse(ConfigReader.Get(row1, 13));
+                int eM1 = int.Parse(ConfigReader.Get(row1, 14));
+
+                DateTime s1 = new DateTime(1, 1, 1, sH1, sM1, 0);
+                DateTime e1 = new DateTime(1, 1, 1, eH1, eM1, 0);
+                if (e1 < s1) e1 = e1.AddDays(1);
+
+                for (int j = i + 1; j < numShifts; j++)
+                {
+                    int row2 = 11 + j;
+                    int sH2 = int.Parse(ConfigReader.Get(row2, 10));
+                    int sM2 = int.Parse(ConfigReader.Get(row2, 11));
+                    int eH2 = int.Parse(ConfigReader.Get(row2, 13));
+                    int eM2 = int.Parse(ConfigReader.Get(row2, 14));
+
+                    DateTime s2 = new DateTime(1, 1, 1, sH2, sM2, 0);
+                    DateTime e2 = new DateTime(1, 1, 1, eH2, eM2, 0);
+                    if (e2 < s2) e2 = e2.AddDays(1);
+
+                    if (s1 < e2 && s2 < e1)
+                    {
+                        MessageBox.Show($"Shift {(char)('A' + i)} and Shift {(char)('A' + j)} collide!", "Shift Collision");
+                    }
+                }
+            }
+        }
+
+
     }
 }
-
