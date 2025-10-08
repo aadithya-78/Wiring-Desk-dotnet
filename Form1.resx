@@ -511,7 +511,7 @@
         orTX0PD/ABMFPpxm9dcPAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="rounded_Button2.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnBarcodePrint.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1
         MAAA6mAAADqYAAAXcJy6UTwAAAAHdElNRQfpCRoLATdi2E7PAAAB20lEQVRIS+2XPa8BQRSG1dT+hAoF

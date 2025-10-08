@@ -29,8 +29,8 @@ namespace Wiring_Desk
         
         private byte[] rxBuffer = new byte[0];
 
-
-        public GTI()
+        private string username;
+        public GTI(string _username)
 
         {
             InitializeComponent();
@@ -38,7 +38,10 @@ namespace Wiring_Desk
             LoadConfig();
             SerialInit();
             UpdateShift();
-
+           
+            username = _username;
+            adminRights();
+          
             dummy = new DummyUC();
             dummy.Dock = DockStyle.Fill;
             panelUserControl.Controls.Add(dummy);
@@ -71,6 +74,23 @@ namespace Wiring_Desk
         {
             LoadUI();
            
+        }
+
+        private void adminRights()
+        {
+            if (username != "admin")
+            {
+                btnSettings.Visible = false;
+                btnClose.Visible = false;
+                btnBarcodePrint.Visible = false;
+            }
+            else
+            {
+                btnSettings.Visible = true;
+                btnClose.Visible = true;
+                btnBarcodePrint.Visible = true;
+            }
+
         }
       
         async public void Reset()
@@ -558,6 +578,13 @@ namespace Wiring_Desk
             btn_TimeElapsedDisable.StartColor = Color.Green;
         }
 
+        private void btnBarcodePrint_Click(object sender, EventArgs e)
+        {
+            using (BarcodePrinter form = new BarcodePrinter())
+            {
+                form.ShowDialog(this);
+            }
+        }
         private void btnPause_Click(object sender, EventArgs e)
         {
 
@@ -696,6 +723,12 @@ namespace Wiring_Desk
             this.Close();
         }
 
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            loginForm login = new loginForm();
+            login.Show();
+        }
         private void Guna2Button1_MouseUp(object sender, MouseEventArgs e)
         {
 
@@ -821,6 +854,6 @@ namespace Wiring_Desk
             }
         }
 
-
+      
     }
 }

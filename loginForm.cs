@@ -54,7 +54,7 @@ namespace Wiring_Desk
                         if (count == 1)
                         {
                             this.Hide();
-                            GTI mainForm = new GTI();
+                            GTI mainForm = new GTI(username);
                             mainForm.Show();
                         }
                         else

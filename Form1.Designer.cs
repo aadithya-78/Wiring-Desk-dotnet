@@ -46,8 +46,6 @@
             this.btnTime = new Guna.UI2.WinForms.Guna2GradientButton();
             this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.rounded_Button2 = new Wiring_Desk.Rounded_Button();
-            this.btnClose = new Wiring_Desk.Rounded_Button();
             this.lblTitle = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panelUserControl = new System.Windows.Forms.Panel();
@@ -55,6 +53,19 @@
             this.selectDesk = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.lblActualTargetTime = new System.Windows.Forms.RichTextBox();
+            this.lblTargetCycleTime = new System.Windows.Forms.RichTextBox();
+            this.lblActualCount = new System.Windows.Forms.RichTextBox();
+            this.lblTargetCount = new System.Windows.Forms.RichTextBox();
+            this.lblStepIndicator = new System.Windows.Forms.RichTextBox();
+            this.btnStepDecr = new System.Windows.Forms.Button();
+            this.btnStepIncr = new System.Windows.Forms.Button();
+            this.panelConfig = new System.Windows.Forms.Panel();
+            this.panelPicConfig = new System.Windows.Forms.Panel();
+            this.cycleTimer = new System.Windows.Forms.Timer(this.components);
+            this.rxtxTimerHome = new System.Windows.Forms.Timer(this.components);
+            this.btnBarcodePrint = new Wiring_Desk.Rounded_Button();
+            this.btnClose = new Wiring_Desk.Rounded_Button();
             this.btn_TimeElapsedDisable = new Wiring_Desk.Rounded_Button();
             this.btn_Manual = new Wiring_Desk.Rounded_Button();
             this.btn_TimeElapsedEnable = new Wiring_Desk.Rounded_Button();
@@ -71,17 +82,6 @@
             this.lblProcessStep = new Wiring_Desk.Rounded_Button();
             this.lbWarningAlarm = new Wiring_Desk.Rounded_Button();
             this.lblSelectDesk = new Wiring_Desk.Rounded_Button();
-            this.lblActualTargetTime = new System.Windows.Forms.RichTextBox();
-            this.lblTargetCycleTime = new System.Windows.Forms.RichTextBox();
-            this.lblActualCount = new System.Windows.Forms.RichTextBox();
-            this.lblTargetCount = new System.Windows.Forms.RichTextBox();
-            this.lblStepIndicator = new System.Windows.Forms.RichTextBox();
-            this.btnStepDecr = new System.Windows.Forms.Button();
-            this.btnStepIncr = new System.Windows.Forms.Button();
-            this.panelConfig = new System.Windows.Forms.Panel();
-            this.panelPicConfig = new System.Windows.Forms.Panel();
-            this.cycleTimer = new System.Windows.Forms.Timer(this.components);
-            this.rxtxTimerHome = new System.Windows.Forms.Timer(this.components);
             this.panelFooter.SuspendLayout();
             this.panelHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -195,7 +195,7 @@
             this.panelHeader.Controls.Add(this.btnTime);
             this.panelHeader.Controls.Add(this.guna2Button1);
             this.panelHeader.Controls.Add(this.panel2);
-            this.panelHeader.Controls.Add(this.rounded_Button2);
+            this.panelHeader.Controls.Add(this.btnBarcodePrint);
             this.panelHeader.Controls.Add(this.btnClose);
             this.panelHeader.Controls.Add(this.lblTitle);
             this.panelHeader.Controls.Add(this.pictureBox1);
@@ -310,6 +310,7 @@
             this.guna2Button1.Size = new System.Drawing.Size(60, 60);
             this.guna2Button1.TabIndex = 59;
             this.guna2Button1.Text = "guna2Button1";
+            this.guna2Button1.Click += new System.EventHandler(this.guna2Button1_Click);
             this.guna2Button1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Guna2Button1_MouseUp);
             // 
             // panel2
@@ -318,39 +319,6 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1366, 687);
             this.panel2.TabIndex = 50;
-            // 
-            // rounded_Button2
-            // 
-            this.rounded_Button2.BackColor = System.Drawing.Color.Transparent;
-            this.rounded_Button2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("rounded_Button2.BackgroundImage")));
-            this.rounded_Button2.CornerRadius = 10;
-            this.rounded_Button2.EndColor = System.Drawing.Color.Transparent;
-            this.rounded_Button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rounded_Button2.HoverEndColor = System.Drawing.Color.Transparent;
-            this.rounded_Button2.HoverStartColor = System.Drawing.Color.Transparent;
-            this.rounded_Button2.Location = new System.Drawing.Point(1323, 38);
-            this.rounded_Button2.Margin = new System.Windows.Forms.Padding(4);
-            this.rounded_Button2.Name = "rounded_Button2";
-            this.rounded_Button2.Size = new System.Drawing.Size(30, 30);
-            this.rounded_Button2.StartColor = System.Drawing.Color.Transparent;
-            this.rounded_Button2.TabIndex = 58;
-            // 
-            // btnClose
-            // 
-            this.btnClose.BackColor = System.Drawing.Color.Transparent;
-            this.btnClose.CornerRadius = 10;
-            this.btnClose.EndColor = System.Drawing.Color.White;
-            this.btnClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClose.HoverEndColor = System.Drawing.Color.Red;
-            this.btnClose.HoverStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.btnClose.Location = new System.Drawing.Point(1323, 6);
-            this.btnClose.Margin = new System.Windows.Forms.Padding(4);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(30, 30);
-            this.btnClose.StartColor = System.Drawing.Color.Red;
-            this.btnClose.TabIndex = 56;
-            this.btnClose.Text = "X";
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // lblTitle
             // 
@@ -453,6 +421,161 @@
             this.label2.Size = new System.Drawing.Size(44, 13);
             this.label2.TabIndex = 47;
             this.label2.Text = "Target";
+            // 
+            // lblActualTargetTime
+            // 
+            this.lblActualTargetTime.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblActualTargetTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblActualTargetTime.Location = new System.Drawing.Point(1238, 62);
+            this.lblActualTargetTime.Multiline = false;
+            this.lblActualTargetTime.Name = "lblActualTargetTime";
+            this.lblActualTargetTime.ReadOnly = true;
+            this.lblActualTargetTime.Size = new System.Drawing.Size(79, 34);
+            this.lblActualTargetTime.TabIndex = 29;
+            this.lblActualTargetTime.Text = "";
+            // 
+            // lblTargetCycleTime
+            // 
+            this.lblTargetCycleTime.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblTargetCycleTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTargetCycleTime.Location = new System.Drawing.Point(1153, 62);
+            this.lblTargetCycleTime.Multiline = false;
+            this.lblTargetCycleTime.Name = "lblTargetCycleTime";
+            this.lblTargetCycleTime.ReadOnly = true;
+            this.lblTargetCycleTime.Size = new System.Drawing.Size(79, 34);
+            this.lblTargetCycleTime.TabIndex = 28;
+            this.lblTargetCycleTime.Text = "";
+            // 
+            // lblActualCount
+            // 
+            this.lblActualCount.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblActualCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblActualCount.Location = new System.Drawing.Point(1238, 20);
+            this.lblActualCount.Multiline = false;
+            this.lblActualCount.Name = "lblActualCount";
+            this.lblActualCount.ReadOnly = true;
+            this.lblActualCount.Size = new System.Drawing.Size(79, 34);
+            this.lblActualCount.TabIndex = 27;
+            this.lblActualCount.Text = "0";
+            // 
+            // lblTargetCount
+            // 
+            this.lblTargetCount.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblTargetCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTargetCount.Location = new System.Drawing.Point(1153, 20);
+            this.lblTargetCount.Multiline = false;
+            this.lblTargetCount.Name = "lblTargetCount";
+            this.lblTargetCount.ReadOnly = true;
+            this.lblTargetCount.Size = new System.Drawing.Size(79, 34);
+            this.lblTargetCount.TabIndex = 26;
+            this.lblTargetCount.Tag = "";
+            this.lblTargetCount.Text = "50";
+            // 
+            // lblStepIndicator
+            // 
+            this.lblStepIndicator.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStepIndicator.Location = new System.Drawing.Point(508, 20);
+            this.lblStepIndicator.Multiline = false;
+            this.lblStepIndicator.Name = "lblStepIndicator";
+            this.lblStepIndicator.ReadOnly = true;
+            this.lblStepIndicator.Size = new System.Drawing.Size(76, 34);
+            this.lblStepIndicator.TabIndex = 19;
+            this.lblStepIndicator.Text = "";
+            this.lblStepIndicator.TextChanged += new System.EventHandler(this.lblStepIndicator_TextChanged);
+            // 
+            // btnStepDecr
+            // 
+            this.btnStepDecr.BackColor = System.Drawing.Color.White;
+            this.btnStepDecr.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnStepDecr.Location = new System.Drawing.Point(590, 20);
+            this.btnStepDecr.Name = "btnStepDecr";
+            this.btnStepDecr.Size = new System.Drawing.Size(26, 34);
+            this.btnStepDecr.TabIndex = 18;
+            this.btnStepDecr.Text = "<";
+            this.btnStepDecr.UseVisualStyleBackColor = false;
+            this.btnStepDecr.Click += new System.EventHandler(this.btnStepDecr_Click);
+            // 
+            // btnStepIncr
+            // 
+            this.btnStepIncr.BackColor = System.Drawing.Color.White;
+            this.btnStepIncr.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnStepIncr.Location = new System.Drawing.Point(622, 20);
+            this.btnStepIncr.Name = "btnStepIncr";
+            this.btnStepIncr.Size = new System.Drawing.Size(26, 34);
+            this.btnStepIncr.TabIndex = 17;
+            this.btnStepIncr.Text = ">";
+            this.btnStepIncr.UseVisualStyleBackColor = false;
+            this.btnStepIncr.Click += new System.EventHandler(this.btnStepIncr_Click);
+            // 
+            // panelConfig
+            // 
+            this.panelConfig.BackColor = System.Drawing.Color.Transparent;
+            this.panelConfig.Controls.Add(this.panelFooter);
+            this.panelConfig.Controls.Add(this.panelToolbar);
+            this.panelConfig.Controls.Add(this.panelUserControl);
+            this.panelConfig.Controls.Add(this.panelPicConfig);
+            this.panelConfig.Location = new System.Drawing.Point(0, 75);
+            this.panelConfig.Name = "panelConfig";
+            this.panelConfig.Size = new System.Drawing.Size(1366, 693);
+            this.panelConfig.TabIndex = 59;
+            this.panelConfig.Paint += new System.Windows.Forms.PaintEventHandler(this.panelConfig_Paint);
+            // 
+            // panelPicConfig
+            // 
+            this.panelPicConfig.Location = new System.Drawing.Point(0, 0);
+            this.panelPicConfig.Name = "panelPicConfig";
+            this.panelPicConfig.Size = new System.Drawing.Size(1366, 693);
+            this.panelPicConfig.TabIndex = 34;
+            // 
+            // cycleTimer
+            // 
+            this.cycleTimer.Interval = 1000;
+            this.cycleTimer.Tick += new System.EventHandler(this.cycleTimer_Tick);
+            // 
+            // rxtxTimerHome
+            // 
+            this.rxtxTimerHome.Interval = 50;
+            this.rxtxTimerHome.Tick += new System.EventHandler(this.rxtxTimerHome_Tick);
+            // 
+            // btnBarcodePrint
+            // 
+            this.btnBarcodePrint.BackColor = System.Drawing.Color.Transparent;
+            this.btnBarcodePrint.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnBarcodePrint.BackgroundImage")));
+            this.btnBarcodePrint.CornerRadius = 10;
+            this.btnBarcodePrint.EndColor = System.Drawing.Color.Transparent;
+            this.btnBarcodePrint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBarcodePrint.HoverEndColor = System.Drawing.Color.Transparent;
+            this.btnBarcodePrint.HoverStartColor = System.Drawing.Color.Transparent;
+            this.btnBarcodePrint.Location = new System.Drawing.Point(1323, 38);
+            this.btnBarcodePrint.Margin = new System.Windows.Forms.Padding(4);
+            this.btnBarcodePrint.Name = "btnBarcodePrint";
+            this.btnBarcodePrint.Size = new System.Drawing.Size(30, 30);
+            this.btnBarcodePrint.StartColor = System.Drawing.Color.Transparent;
+            this.btnBarcodePrint.TabIndex = 58;
+            this.btnBarcodePrint.Click += new System.EventHandler(this.btnBarcodePrint_Click);
+            // 
+            // btnClose
+            // 
+            this.btnClose.BackColor = System.Drawing.Color.Transparent;
+            this.btnClose.CornerRadius = 10;
+            this.btnClose.EndColor = System.Drawing.Color.White;
+            this.btnClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClose.HoverEndColor = System.Drawing.Color.Red;
+            this.btnClose.HoverStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btnClose.Location = new System.Drawing.Point(1323, 6);
+            this.btnClose.Margin = new System.Windows.Forms.Padding(4);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(30, 30);
+            this.btnClose.StartColor = System.Drawing.Color.Red;
+            this.btnClose.TabIndex = 56;
+            this.btnClose.Text = "X";
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // btn_TimeElapsedDisable
             // 
@@ -718,127 +841,6 @@
             this.lblSelectDesk.TabIndex = 0;
             this.lblSelectDesk.Text = "Select Desk";
             // 
-            // lblActualTargetTime
-            // 
-            this.lblActualTargetTime.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblActualTargetTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblActualTargetTime.Location = new System.Drawing.Point(1238, 62);
-            this.lblActualTargetTime.Multiline = false;
-            this.lblActualTargetTime.Name = "lblActualTargetTime";
-            this.lblActualTargetTime.ReadOnly = true;
-            this.lblActualTargetTime.Size = new System.Drawing.Size(79, 34);
-            this.lblActualTargetTime.TabIndex = 29;
-            this.lblActualTargetTime.Text = "";
-            // 
-            // lblTargetCycleTime
-            // 
-            this.lblTargetCycleTime.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblTargetCycleTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTargetCycleTime.Location = new System.Drawing.Point(1153, 62);
-            this.lblTargetCycleTime.Multiline = false;
-            this.lblTargetCycleTime.Name = "lblTargetCycleTime";
-            this.lblTargetCycleTime.ReadOnly = true;
-            this.lblTargetCycleTime.Size = new System.Drawing.Size(79, 34);
-            this.lblTargetCycleTime.TabIndex = 28;
-            this.lblTargetCycleTime.Text = "";
-            // 
-            // lblActualCount
-            // 
-            this.lblActualCount.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblActualCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblActualCount.Location = new System.Drawing.Point(1238, 20);
-            this.lblActualCount.Multiline = false;
-            this.lblActualCount.Name = "lblActualCount";
-            this.lblActualCount.ReadOnly = true;
-            this.lblActualCount.Size = new System.Drawing.Size(79, 34);
-            this.lblActualCount.TabIndex = 27;
-            this.lblActualCount.Text = "0";
-            // 
-            // lblTargetCount
-            // 
-            this.lblTargetCount.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lblTargetCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTargetCount.Location = new System.Drawing.Point(1153, 20);
-            this.lblTargetCount.Multiline = false;
-            this.lblTargetCount.Name = "lblTargetCount";
-            this.lblTargetCount.ReadOnly = true;
-            this.lblTargetCount.Size = new System.Drawing.Size(79, 34);
-            this.lblTargetCount.TabIndex = 26;
-            this.lblTargetCount.Tag = "";
-            this.lblTargetCount.Text = "50";
-            // 
-            // lblStepIndicator
-            // 
-            this.lblStepIndicator.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStepIndicator.Location = new System.Drawing.Point(508, 20);
-            this.lblStepIndicator.Multiline = false;
-            this.lblStepIndicator.Name = "lblStepIndicator";
-            this.lblStepIndicator.ReadOnly = true;
-            this.lblStepIndicator.Size = new System.Drawing.Size(76, 34);
-            this.lblStepIndicator.TabIndex = 19;
-            this.lblStepIndicator.Text = "";
-            this.lblStepIndicator.TextChanged += new System.EventHandler(this.lblStepIndicator_TextChanged);
-            // 
-            // btnStepDecr
-            // 
-            this.btnStepDecr.BackColor = System.Drawing.Color.White;
-            this.btnStepDecr.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnStepDecr.Location = new System.Drawing.Point(590, 20);
-            this.btnStepDecr.Name = "btnStepDecr";
-            this.btnStepDecr.Size = new System.Drawing.Size(26, 34);
-            this.btnStepDecr.TabIndex = 18;
-            this.btnStepDecr.Text = "<";
-            this.btnStepDecr.UseVisualStyleBackColor = false;
-            this.btnStepDecr.Click += new System.EventHandler(this.btnStepDecr_Click);
-            // 
-            // btnStepIncr
-            // 
-            this.btnStepIncr.BackColor = System.Drawing.Color.White;
-            this.btnStepIncr.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnStepIncr.Location = new System.Drawing.Point(622, 20);
-            this.btnStepIncr.Name = "btnStepIncr";
-            this.btnStepIncr.Size = new System.Drawing.Size(26, 34);
-            this.btnStepIncr.TabIndex = 17;
-            this.btnStepIncr.Text = ">";
-            this.btnStepIncr.UseVisualStyleBackColor = false;
-            this.btnStepIncr.Click += new System.EventHandler(this.btnStepIncr_Click);
-            // 
-            // panelConfig
-            // 
-            this.panelConfig.BackColor = System.Drawing.Color.Transparent;
-            this.panelConfig.Controls.Add(this.panelFooter);
-            this.panelConfig.Controls.Add(this.panelToolbar);
-            this.panelConfig.Controls.Add(this.panelUserControl);
-            this.panelConfig.Controls.Add(this.panelPicConfig);
-            this.panelConfig.Location = new System.Drawing.Point(0, 75);
-            this.panelConfig.Name = "panelConfig";
-            this.panelConfig.Size = new System.Drawing.Size(1366, 693);
-            this.panelConfig.TabIndex = 59;
-            this.panelConfig.Paint += new System.Windows.Forms.PaintEventHandler(this.panelConfig_Paint);
-            // 
-            // panelPicConfig
-            // 
-            this.panelPicConfig.Location = new System.Drawing.Point(0, 0);
-            this.panelPicConfig.Name = "panelPicConfig";
-            this.panelPicConfig.Size = new System.Drawing.Size(1366, 693);
-            this.panelPicConfig.TabIndex = 34;
-            // 
-            // cycleTimer
-            // 
-            this.cycleTimer.Interval = 1000;
-            this.cycleTimer.Tick += new System.EventHandler(this.cycleTimer_Tick);
-            // 
-            // rxtxTimerHome
-            // 
-            this.rxtxTimerHome.Interval = 50;
-            this.rxtxTimerHome.Tick += new System.EventHandler(this.rxtxTimerHome_Tick);
-            // 
             // GTI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -870,7 +872,7 @@
         private System.IO.Ports.SerialPort serialPort1;
         private System.Windows.Forms.Timer Date_Timer;
         private Guna.UI2.WinForms.Guna2GradientPanel panelHeader;
-        private Rounded_Button rounded_Button2;
+        private Rounded_Button btnBarcodePrint;
         private Rounded_Button btnClose;
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.PictureBox pictureBox1;
