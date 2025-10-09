@@ -46,7 +46,7 @@
             this.btnPlanning.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnPlanning.Name = "btnPlanning";
             this.btnPlanning.Size = new System.Drawing.Size(412, 50);
-            this.btnPlanning.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
+            this.btnPlanning.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(190)))), ((int)(((byte)(100)))));
             this.btnPlanning.TabIndex = 33;
             this.btnPlanning.Text = "Planning";
             // 
@@ -62,7 +62,7 @@
             this.btnConfiguration.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnConfiguration.Name = "btnConfiguration";
             this.btnConfiguration.Size = new System.Drawing.Size(412, 50);
-            this.btnConfiguration.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
+            this.btnConfiguration.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(190)))), ((int)(((byte)(100)))));
             this.btnConfiguration.TabIndex = 34;
             this.btnConfiguration.Text = "Configuration";
             this.btnConfiguration.Click += new System.EventHandler(this.btnConfiguration_Click);
@@ -79,7 +79,7 @@
             this.btnPictureConfiguration.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnPictureConfiguration.Name = "btnPictureConfiguration";
             this.btnPictureConfiguration.Size = new System.Drawing.Size(412, 50);
-            this.btnPictureConfiguration.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
+            this.btnPictureConfiguration.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(190)))), ((int)(((byte)(100)))));
             this.btnPictureConfiguration.TabIndex = 35;
             this.btnPictureConfiguration.Text = "Picture Configuration";
             this.btnPictureConfiguration.Click += new System.EventHandler(this.btnPictureConfiguration_Click);
@@ -96,7 +96,7 @@
             this.btnClose.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(412, 50);
-            this.btnClose.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
+            this.btnClose.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(190)))), ((int)(((byte)(100)))));
             this.btnClose.TabIndex = 37;
             this.btnClose.Text = "Close";
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
@@ -105,7 +105,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(150)))), ((int)(((byte)(190)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(120)))), ((int)(((byte)(120)))));
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnPictureConfiguration);
             this.Controls.Add(this.btnConfiguration);

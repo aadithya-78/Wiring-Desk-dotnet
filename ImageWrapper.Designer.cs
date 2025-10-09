@@ -43,15 +43,15 @@
             // 
             this.rounded_Button1.BackColor = System.Drawing.Color.Transparent;
             this.rounded_Button1.CornerRadius = 20;
-            this.rounded_Button1.EndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.rounded_Button1.EndColor = System.Drawing.Color.Yellow;
             this.rounded_Button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rounded_Button1.HoverEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(0)))));
-            this.rounded_Button1.HoverStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.rounded_Button1.HoverEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
+            this.rounded_Button1.HoverStartColor = System.Drawing.Color.Yellow;
             this.rounded_Button1.Location = new System.Drawing.Point(483, 6);
             this.rounded_Button1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.rounded_Button1.Name = "rounded_Button1";
             this.rounded_Button1.Size = new System.Drawing.Size(400, 40);
-            this.rounded_Button1.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(0)))));
+            this.rounded_Button1.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(190)))), ((int)(((byte)(100)))));
             this.rounded_Button1.TabIndex = 0;
             this.rounded_Button1.Text = "Modules to be installed";
             // 

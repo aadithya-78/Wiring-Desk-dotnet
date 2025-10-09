@@ -379,6 +379,7 @@
             // panelUserControl
             // 
             this.panelUserControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelUserControl.ForeColor = System.Drawing.Color.Black;
             this.panelUserControl.Location = new System.Drawing.Point(0, 120);
             this.panelUserControl.Name = "panelUserControl";
             this.panelUserControl.Size = new System.Drawing.Size(1366, 502);
@@ -460,15 +461,15 @@
             // 
             this.btn_TimeElapsedDisable.BackColor = System.Drawing.Color.Transparent;
             this.btn_TimeElapsedDisable.CornerRadius = 25;
-            this.btn_TimeElapsedDisable.EndColor = System.Drawing.Color.White;
+            this.btn_TimeElapsedDisable.EndColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(255)))), ((int)(((byte)(140)))));
             this.btn_TimeElapsedDisable.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_TimeElapsedDisable.HoverEndColor = System.Drawing.Color.Green;
-            this.btn_TimeElapsedDisable.HoverStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btn_TimeElapsedDisable.HoverStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(255)))), ((int)(((byte)(140)))));
             this.btn_TimeElapsedDisable.Location = new System.Drawing.Point(905, 62);
             this.btn_TimeElapsedDisable.Margin = new System.Windows.Forms.Padding(4);
             this.btn_TimeElapsedDisable.Name = "btn_TimeElapsedDisable";
             this.btn_TimeElapsedDisable.Size = new System.Drawing.Size(70, 34);
-            this.btn_TimeElapsedDisable.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btn_TimeElapsedDisable.StartColor = System.Drawing.Color.Green;
             this.btn_TimeElapsedDisable.TabIndex = 46;
             this.btn_TimeElapsedDisable.Text = "Disable";
             this.btn_TimeElapsedDisable.Click += new System.EventHandler(this.btnTimeElapsedDisable_Click);
@@ -477,15 +478,15 @@
             // 
             this.btn_Manual.BackColor = System.Drawing.Color.Transparent;
             this.btn_Manual.CornerRadius = 25;
-            this.btn_Manual.EndColor = System.Drawing.Color.White;
+            this.btn_Manual.EndColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(255)))), ((int)(((byte)(140)))));
             this.btn_Manual.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Manual.HoverEndColor = System.Drawing.Color.Green;
-            this.btn_Manual.HoverStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btn_Manual.HoverStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(255)))), ((int)(((byte)(140)))));
             this.btn_Manual.Location = new System.Drawing.Point(905, 20);
             this.btn_Manual.Margin = new System.Windows.Forms.Padding(4);
             this.btn_Manual.Name = "btn_Manual";
             this.btn_Manual.Size = new System.Drawing.Size(70, 34);
-            this.btn_Manual.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btn_Manual.StartColor = System.Drawing.Color.Green;
             this.btn_Manual.TabIndex = 42;
             this.btn_Manual.Text = "Manual";
             this.btn_Manual.Click += new System.EventHandler(this.btnManual_Click);
@@ -494,10 +495,10 @@
             // 
             this.btn_TimeElapsedEnable.BackColor = System.Drawing.Color.Transparent;
             this.btn_TimeElapsedEnable.CornerRadius = 25;
-            this.btn_TimeElapsedEnable.EndColor = System.Drawing.Color.White;
+            this.btn_TimeElapsedEnable.EndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
             this.btn_TimeElapsedEnable.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_TimeElapsedEnable.HoverEndColor = System.Drawing.Color.Red;
-            this.btn_TimeElapsedEnable.HoverStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btn_TimeElapsedEnable.HoverStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
             this.btn_TimeElapsedEnable.Location = new System.Drawing.Point(831, 62);
             this.btn_TimeElapsedEnable.Margin = new System.Windows.Forms.Padding(4);
             this.btn_TimeElapsedEnable.Name = "btn_TimeElapsedEnable";
@@ -511,10 +512,10 @@
             // 
             this.btn_Scanner.BackColor = System.Drawing.Color.Transparent;
             this.btn_Scanner.CornerRadius = 25;
-            this.btn_Scanner.EndColor = System.Drawing.Color.White;
+            this.btn_Scanner.EndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
             this.btn_Scanner.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Scanner.HoverEndColor = System.Drawing.Color.Red;
-            this.btn_Scanner.HoverStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btn_Scanner.HoverStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
             this.btn_Scanner.Location = new System.Drawing.Point(831, 20);
             this.btn_Scanner.Margin = new System.Windows.Forms.Padding(4);
             this.btn_Scanner.Name = "btn_Scanner";
@@ -528,15 +529,15 @@
             // 
             this.btn_CyDisable.BackColor = System.Drawing.Color.Transparent;
             this.btn_CyDisable.CornerRadius = 25;
-            this.btn_CyDisable.EndColor = System.Drawing.Color.White;
+            this.btn_CyDisable.EndColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(255)))), ((int)(((byte)(140)))));
             this.btn_CyDisable.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_CyDisable.HoverEndColor = System.Drawing.Color.Green;
-            this.btn_CyDisable.HoverStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btn_CyDisable.HoverStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(255)))), ((int)(((byte)(140)))));
             this.btn_CyDisable.Location = new System.Drawing.Point(582, 62);
             this.btn_CyDisable.Margin = new System.Windows.Forms.Padding(4);
             this.btn_CyDisable.Name = "btn_CyDisable";
             this.btn_CyDisable.Size = new System.Drawing.Size(70, 34);
-            this.btn_CyDisable.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btn_CyDisable.StartColor = System.Drawing.Color.Green;
             this.btn_CyDisable.TabIndex = 40;
             this.btn_CyDisable.Text = "Disable";
             this.btn_CyDisable.Click += new System.EventHandler(this.btnCyDisable_Click);
@@ -545,10 +546,10 @@
             // 
             this.btn_CyEnable.BackColor = System.Drawing.Color.Transparent;
             this.btn_CyEnable.CornerRadius = 25;
-            this.btn_CyEnable.EndColor = System.Drawing.Color.White;
+            this.btn_CyEnable.EndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
             this.btn_CyEnable.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_CyEnable.HoverEndColor = System.Drawing.Color.Red;
-            this.btn_CyEnable.HoverStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btn_CyEnable.HoverStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
             this.btn_CyEnable.Location = new System.Drawing.Point(508, 62);
             this.btn_CyEnable.Margin = new System.Windows.Forms.Padding(4);
             this.btn_CyEnable.Name = "btn_CyEnable";
@@ -562,15 +563,15 @@
             // 
             this.btn_WarOff.BackColor = System.Drawing.Color.Transparent;
             this.btn_WarOff.CornerRadius = 25;
-            this.btn_WarOff.EndColor = System.Drawing.Color.White;
+            this.btn_WarOff.EndColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(255)))), ((int)(((byte)(140)))));
             this.btn_WarOff.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_WarOff.HoverEndColor = System.Drawing.Color.Green;
-            this.btn_WarOff.HoverStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btn_WarOff.HoverStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(255)))), ((int)(((byte)(140)))));
             this.btn_WarOff.Location = new System.Drawing.Point(258, 61);
             this.btn_WarOff.Margin = new System.Windows.Forms.Padding(4);
             this.btn_WarOff.Name = "btn_WarOff";
             this.btn_WarOff.Size = new System.Drawing.Size(70, 34);
-            this.btn_WarOff.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btn_WarOff.StartColor = System.Drawing.Color.Green;
             this.btn_WarOff.TabIndex = 38;
             this.btn_WarOff.Text = "OFF";
             this.btn_WarOff.Click += new System.EventHandler(this.btnWarningOff_OnClick);
@@ -587,7 +588,7 @@
             this.lblCycleTime.Margin = new System.Windows.Forms.Padding(4);
             this.lblCycleTime.Name = "lblCycleTime";
             this.lblCycleTime.Size = new System.Drawing.Size(140, 34);
-            this.lblCycleTime.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
+            this.lblCycleTime.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(190)))), ((int)(((byte)(100)))));
             this.lblCycleTime.TabIndex = 36;
             this.lblCycleTime.Text = "Cycle Time";
             // 
@@ -595,10 +596,10 @@
             // 
             this.btn_WarOn.BackColor = System.Drawing.Color.Transparent;
             this.btn_WarOn.CornerRadius = 25;
-            this.btn_WarOn.EndColor = System.Drawing.Color.White;
+            this.btn_WarOn.EndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
             this.btn_WarOn.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_WarOn.HoverEndColor = System.Drawing.Color.Red;
-            this.btn_WarOn.HoverStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btn_WarOn.HoverStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(140)))), ((int)(((byte)(140)))));
             this.btn_WarOn.Location = new System.Drawing.Point(180, 62);
             this.btn_WarOn.Margin = new System.Windows.Forms.Padding(4);
             this.btn_WarOn.Name = "btn_WarOn";
@@ -620,7 +621,7 @@
             this.lblCount.Margin = new System.Windows.Forms.Padding(4);
             this.lblCount.Name = "lblCount";
             this.lblCount.Size = new System.Drawing.Size(140, 34);
-            this.lblCount.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
+            this.lblCount.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(190)))), ((int)(((byte)(100)))));
             this.lblCount.TabIndex = 35;
             this.lblCount.Text = "Count";
             // 
@@ -636,7 +637,7 @@
             this.lblTimeElapsed.Margin = new System.Windows.Forms.Padding(4);
             this.lblTimeElapsed.Name = "lblTimeElapsed";
             this.lblTimeElapsed.Size = new System.Drawing.Size(140, 34);
-            this.lblTimeElapsed.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
+            this.lblTimeElapsed.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(190)))), ((int)(((byte)(100)))));
             this.lblTimeElapsed.TabIndex = 34;
             this.lblTimeElapsed.Text = "Time Elapsed";
             // 
@@ -652,7 +653,7 @@
             this.lblDeskSelection.Margin = new System.Windows.Forms.Padding(4);
             this.lblDeskSelection.Name = "lblDeskSelection";
             this.lblDeskSelection.Size = new System.Drawing.Size(140, 34);
-            this.lblDeskSelection.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
+            this.lblDeskSelection.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(190)))), ((int)(((byte)(100)))));
             this.lblDeskSelection.TabIndex = 33;
             this.lblDeskSelection.Text = "Desk Selection";
             // 
@@ -668,7 +669,7 @@
             this.rounded_Button5.Margin = new System.Windows.Forms.Padding(4);
             this.rounded_Button5.Name = "rounded_Button5";
             this.rounded_Button5.Size = new System.Drawing.Size(140, 34);
-            this.rounded_Button5.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
+            this.rounded_Button5.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(190)))), ((int)(((byte)(100)))));
             this.rounded_Button5.TabIndex = 32;
             this.rounded_Button5.Text = "Cy Movement";
             // 
@@ -684,7 +685,7 @@
             this.lblProcessStep.Margin = new System.Windows.Forms.Padding(4);
             this.lblProcessStep.Name = "lblProcessStep";
             this.lblProcessStep.Size = new System.Drawing.Size(140, 34);
-            this.lblProcessStep.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
+            this.lblProcessStep.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(190)))), ((int)(((byte)(100)))));
             this.lblProcessStep.TabIndex = 31;
             this.lblProcessStep.Text = "Process Step";
             // 
@@ -700,7 +701,7 @@
             this.lbWarningAlarm.Margin = new System.Windows.Forms.Padding(4);
             this.lbWarningAlarm.Name = "lbWarningAlarm";
             this.lbWarningAlarm.Size = new System.Drawing.Size(140, 34);
-            this.lbWarningAlarm.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
+            this.lbWarningAlarm.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(190)))), ((int)(((byte)(100)))));
             this.lbWarningAlarm.TabIndex = 30;
             this.lbWarningAlarm.Text = "Warning Alarm";
             // 
@@ -710,13 +711,13 @@
             this.lblSelectDesk.CornerRadius = 25;
             this.lblSelectDesk.EndColor = System.Drawing.Color.Yellow;
             this.lblSelectDesk.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSelectDesk.HoverEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
+            this.lblSelectDesk.HoverEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(50)))));
             this.lblSelectDesk.HoverStartColor = System.Drawing.Color.Yellow;
             this.lblSelectDesk.Location = new System.Drawing.Point(21, 20);
             this.lblSelectDesk.Margin = new System.Windows.Forms.Padding(4);
             this.lblSelectDesk.Name = "lblSelectDesk";
             this.lblSelectDesk.Size = new System.Drawing.Size(140, 34);
-            this.lblSelectDesk.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(50)))));
+            this.lblSelectDesk.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(190)))), ((int)(((byte)(100)))));
             this.lblSelectDesk.TabIndex = 0;
             this.lblSelectDesk.Text = "Select Desk";
             // 

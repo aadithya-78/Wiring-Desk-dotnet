@@ -503,10 +503,21 @@ namespace Wiring_Desk
             hw_flags = 6;
             if(allCon != null) allCon.UARTSequence.Enqueue(5);
             if (imgWrapper != null) imgWrapper.relay_flag = 1;
+
+            btn_WarOn.HoverStartColor = Color.FromArgb(140, 255, 140);
             btn_WarOn.HoverEndColor = Color.Green;
+            btn_WarOff.HoverStartColor = Color.FromArgb(255, 140, 140);
             btn_WarOff.HoverEndColor = Color.Red;
+
             btn_WarOn.StartColor = Color.Green;
             btn_WarOff.StartColor = Color.Red;
+
+            btn_WarOn.EndColor = Color.FromArgb(140, 255, 140);//Green
+            btn_WarOff.EndColor = Color.FromArgb(255, 140, 140);//Red
+
+          
+
+           
         }
 
         private void btnWarningOff_OnClick(object sender, EventArgs e)
@@ -514,10 +525,22 @@ namespace Wiring_Desk
             hw_flags = 7;
             if (allCon != null) allCon.UARTSequence.Enqueue(6);
             if (imgWrapper != null) imgWrapper.relay_flag = 2;
+
+            btn_WarOn.HoverStartColor = Color.FromArgb(255, 140, 140);
             btn_WarOn.HoverEndColor = Color.Red;
+
+            btn_WarOff.HoverStartColor = Color.FromArgb(140, 255, 140);
             btn_WarOff.HoverEndColor = Color.Green;
+
+
             btn_WarOn.StartColor = Color.Red;
             btn_WarOff.StartColor = Color.Green;
+
+            btn_WarOn.EndColor = Color.FromArgb(255,140,140);//Red
+            btn_WarOff.EndColor = Color.FromArgb(140,255,140);//Green
+
+          
+
         }
 
         private void btnStepIncr_Click(object sender, EventArgs e)
@@ -532,50 +555,99 @@ namespace Wiring_Desk
 
         private void btnCyEnable_Click(object sender, EventArgs e)
         {
+
+            btn_CyEnable.HoverStartColor = Color.FromArgb(140, 255, 140);
             btn_CyEnable.HoverEndColor = Color.Green;
+
+            btn_CyDisable.HoverStartColor = Color.FromArgb(255, 140, 140);
             btn_CyDisable.HoverEndColor = Color.Red;
+
             btn_CyEnable.StartColor = Color.Green;
+            btn_CyEnable.EndColor = Color.FromArgb(140, 255, 140); // gradient lighter green
+           
             btn_CyDisable.StartColor = Color.Red;
+            btn_CyDisable.EndColor = Color.FromArgb(255, 140, 140); // gradient lighter red
+         
         }
 
         private void btnCyDisable_Click(object sender, EventArgs e)
         {
+            btn_CyEnable.HoverStartColor = Color.FromArgb(255, 140, 140);
             btn_CyEnable.HoverEndColor = Color.Red;
+
+            btn_CyDisable.HoverStartColor = Color.FromArgb(140, 255, 140);
             btn_CyDisable.HoverEndColor = Color.Green;
+
             btn_CyEnable.StartColor = Color.Red;
+            btn_CyEnable.EndColor = Color.FromArgb(255, 140, 140); // gradient lighter red
+           
             btn_CyDisable.StartColor = Color.Green;
+            btn_CyDisable.EndColor = Color.FromArgb(140, 255, 140); // gradient lighter green
+           
         }
 
         private void btnScanner_Click(object sender, EventArgs e)
         {
+            btn_Scanner.HoverStartColor = Color.FromArgb(140, 255, 140);
             btn_Scanner.HoverEndColor = Color.Green;
+
+            btn_Manual.HoverStartColor = Color.FromArgb(255, 140, 140);
             btn_Manual.HoverEndColor = Color.Red;
+
             btn_Scanner.StartColor = Color.Green;
+            btn_Scanner.EndColor = Color.FromArgb(140, 255, 140); // gradient lighter green
+        
             btn_Manual.StartColor = Color.Red;
+            btn_Manual.EndColor = Color.FromArgb(255, 140, 140); // gradient lighter red
+          
         }
 
         private void btnManual_Click(object sender, EventArgs e)
         {
+            btn_Scanner.HoverStartColor = Color.FromArgb(255, 140, 140);
             btn_Scanner.HoverEndColor = Color.Red;
+
+            btn_Manual.HoverStartColor = Color.FromArgb(140, 255, 140);
             btn_Manual.HoverEndColor = Color.Green;
+
             btn_Scanner.StartColor = Color.Red;
+            btn_Scanner.EndColor = Color.FromArgb(255, 140, 140); // gradient lighter red
+           
             btn_Manual.StartColor = Color.Green;
+            btn_Manual.EndColor = Color.FromArgb(140, 255, 140); // gradient lighter green
+         
         }
 
         private void btnTimeElapsedEnable_Click(object sender, EventArgs e)
         {
+            btn_TimeElapsedEnable.HoverStartColor = Color.FromArgb(140, 255, 140);
             btn_TimeElapsedEnable.HoverEndColor = Color.Green;
+
+            btn_TimeElapsedDisable.HoverStartColor = Color.FromArgb(255, 140, 140);
             btn_TimeElapsedDisable.HoverEndColor = Color.Red;
+
             btn_TimeElapsedEnable.StartColor = Color.Green;
+            btn_TimeElapsedEnable.EndColor = Color.FromArgb(140, 255, 140); // gradient lighter green
+          
             btn_TimeElapsedDisable.StartColor = Color.Red;
+            btn_TimeElapsedDisable.EndColor = Color.FromArgb(255, 140, 140); // gradient lighter red
+          
         }
 
         private void btnTimeElapsedDisable_Click(object sender, EventArgs e)
         {
+            btn_TimeElapsedEnable.HoverStartColor = Color.FromArgb(255, 140, 140);
             btn_TimeElapsedEnable.HoverEndColor = Color.Red;
+
+            btn_TimeElapsedDisable.HoverStartColor = Color.FromArgb(140, 255, 140);
             btn_TimeElapsedDisable.HoverEndColor = Color.Green;
+
             btn_TimeElapsedEnable.StartColor = Color.Red;
+            btn_TimeElapsedEnable.EndColor = Color.FromArgb(255, 140, 140); // gradient lighter red
+          
             btn_TimeElapsedDisable.StartColor = Color.Green;
+            btn_TimeElapsedDisable.EndColor = Color.FromArgb(140, 255, 140); // gradient lighter green
+           
         }
 
         private void btnBarcodePrint_Click(object sender, EventArgs e)
@@ -669,8 +741,8 @@ namespace Wiring_Desk
                     panelUserControl.Controls.Clear();
                     string selectedFile = selectDesk.SelectedItem.ToString();
                     allCon.stopTimers();
-                    byte[] packet = { 0x27, 0x04, 0x85, 0x01, 0x3A, 0x00, 0x16 };
-                    serialPort1.Write(packet, 0, packet.Length);
+                    //byte[] packet = { 0x27, 0x04, 0x85, 0x01, 0x3A, 0x00, 0x16 };
+                    //serialPort1.Write(packet, 0, packet.Length);
 
                     if (string.IsNullOrWhiteSpace(selectedFile))
                     {

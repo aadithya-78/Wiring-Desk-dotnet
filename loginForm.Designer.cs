@@ -46,6 +46,7 @@
             this.tbUsername.Size = new System.Drawing.Size(144, 28);
             this.tbUsername.TabIndex = 0;
             this.tbUsername.Text = "";
+            this.tbUsername.Enter += new System.EventHandler(this.tbUsername_Enter);
             // 
             // tbPassword
             // 
@@ -57,6 +58,7 @@
             this.tbPassword.TabIndex = 1;
             this.tbPassword.Text = "";
             this.tbPassword.TextChanged += new System.EventHandler(this.tbPassword_TextChanged);
+            this.tbPassword.Enter += new System.EventHandler(this.tbPassword_Enter);
             this.tbPassword.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbPassword_KeyDown);
             // 
             // label1
@@ -120,6 +122,7 @@
             this.Text = "loginForm";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.loginForm_Load);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.loginForm_MouseDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 
