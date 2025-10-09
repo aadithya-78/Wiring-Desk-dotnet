@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Wiring Desk")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Guided Terminal Assembly Station")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Phoeneix Process Automation Pvt Ltd.")]
 [assembly: AssemblyProduct("Wiring Desk")]
 [assembly: AssemblyCopyright("Copyright ©  2025")]
 [assembly: AssemblyTrademark("")]

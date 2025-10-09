@@ -46,7 +46,7 @@
             this.btnTime = new Guna.UI2.WinForms.Guna2GradientButton();
             this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.rounded_Button2 = new Wiring_Desk.Rounded_Button();
+            this.btnBarcodePrint = new Wiring_Desk.Rounded_Button();
             this.btnClose = new Wiring_Desk.Rounded_Button();
             this.lblTitle = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -195,7 +195,7 @@
             this.panelHeader.Controls.Add(this.btnTime);
             this.panelHeader.Controls.Add(this.guna2Button1);
             this.panelHeader.Controls.Add(this.panel2);
-            this.panelHeader.Controls.Add(this.rounded_Button2);
+            this.panelHeader.Controls.Add(this.btnBarcodePrint);
             this.panelHeader.Controls.Add(this.btnClose);
             this.panelHeader.Controls.Add(this.lblTitle);
             this.panelHeader.Controls.Add(this.pictureBox1);
@@ -310,6 +310,7 @@
             this.guna2Button1.Size = new System.Drawing.Size(60, 60);
             this.guna2Button1.TabIndex = 59;
             this.guna2Button1.Text = "guna2Button1";
+            this.guna2Button1.Click += new System.EventHandler(this.guna2Button1_Click);
             this.guna2Button1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Guna2Button1_MouseUp);
             // 
             // panel2
@@ -319,21 +320,22 @@
             this.panel2.Size = new System.Drawing.Size(1366, 687);
             this.panel2.TabIndex = 50;
             // 
-            // rounded_Button2
+            // btnBarcodePrint
             // 
-            this.rounded_Button2.BackColor = System.Drawing.Color.Transparent;
-            this.rounded_Button2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("rounded_Button2.BackgroundImage")));
-            this.rounded_Button2.CornerRadius = 10;
-            this.rounded_Button2.EndColor = System.Drawing.Color.Transparent;
-            this.rounded_Button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rounded_Button2.HoverEndColor = System.Drawing.Color.Transparent;
-            this.rounded_Button2.HoverStartColor = System.Drawing.Color.Transparent;
-            this.rounded_Button2.Location = new System.Drawing.Point(1323, 38);
-            this.rounded_Button2.Margin = new System.Windows.Forms.Padding(4);
-            this.rounded_Button2.Name = "rounded_Button2";
-            this.rounded_Button2.Size = new System.Drawing.Size(30, 30);
-            this.rounded_Button2.StartColor = System.Drawing.Color.Transparent;
-            this.rounded_Button2.TabIndex = 58;
+            this.btnBarcodePrint.BackColor = System.Drawing.Color.Transparent;
+            this.btnBarcodePrint.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnBarcodePrint.BackgroundImage")));
+            this.btnBarcodePrint.CornerRadius = 10;
+            this.btnBarcodePrint.EndColor = System.Drawing.Color.Transparent;
+            this.btnBarcodePrint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBarcodePrint.HoverEndColor = System.Drawing.Color.Transparent;
+            this.btnBarcodePrint.HoverStartColor = System.Drawing.Color.Transparent;
+            this.btnBarcodePrint.Location = new System.Drawing.Point(1323, 38);
+            this.btnBarcodePrint.Margin = new System.Windows.Forms.Padding(4);
+            this.btnBarcodePrint.Name = "btnBarcodePrint";
+            this.btnBarcodePrint.Size = new System.Drawing.Size(30, 30);
+            this.btnBarcodePrint.StartColor = System.Drawing.Color.Transparent;
+            this.btnBarcodePrint.TabIndex = 58;
+            this.btnBarcodePrint.Click += new System.EventHandler(this.btnBarcodePrint_Click);
             // 
             // btnClose
             // 
@@ -358,11 +360,11 @@
             this.lblTitle.BackColor = System.Drawing.Color.Transparent;
             this.lblTitle.Font = new System.Drawing.Font("Arial Black", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitle.ForeColor = System.Drawing.Color.Black;
-            this.lblTitle.Location = new System.Drawing.Point(325, 22);
+            this.lblTitle.Location = new System.Drawing.Point(412, 22);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(717, 33);
+            this.lblTitle.Size = new System.Drawing.Size(543, 33);
             this.lblTitle.TabIndex = 51;
-            this.lblTitle.Text = "GUIDED TERMINAL INSERTION NAVIGATION SYSTEM";
+            this.lblTitle.Text = "GUIDED TERMINAL ASSEMBLY STATION";
             // 
             // pictureBox1
             // 
@@ -577,15 +579,15 @@
             // 
             this.lblCycleTime.BackColor = System.Drawing.Color.Transparent;
             this.lblCycleTime.CornerRadius = 25;
-            this.lblCycleTime.EndColor = System.Drawing.Color.White;
+            this.lblCycleTime.EndColor = System.Drawing.Color.Yellow;
             this.lblCycleTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCycleTime.HoverEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(0)))));
-            this.lblCycleTime.HoverStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.lblCycleTime.HoverEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
+            this.lblCycleTime.HoverStartColor = System.Drawing.Color.Yellow;
             this.lblCycleTime.Location = new System.Drawing.Point(997, 62);
             this.lblCycleTime.Margin = new System.Windows.Forms.Padding(4);
             this.lblCycleTime.Name = "lblCycleTime";
             this.lblCycleTime.Size = new System.Drawing.Size(140, 34);
-            this.lblCycleTime.StartColor = System.Drawing.Color.Yellow;
+            this.lblCycleTime.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
             this.lblCycleTime.TabIndex = 36;
             this.lblCycleTime.Text = "Cycle Time";
             // 
@@ -610,15 +612,15 @@
             // 
             this.lblCount.BackColor = System.Drawing.Color.Transparent;
             this.lblCount.CornerRadius = 25;
-            this.lblCount.EndColor = System.Drawing.Color.White;
+            this.lblCount.EndColor = System.Drawing.Color.Yellow;
             this.lblCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCount.HoverEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(0)))));
-            this.lblCount.HoverStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.lblCount.HoverEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
+            this.lblCount.HoverStartColor = System.Drawing.Color.Yellow;
             this.lblCount.Location = new System.Drawing.Point(997, 20);
             this.lblCount.Margin = new System.Windows.Forms.Padding(4);
             this.lblCount.Name = "lblCount";
             this.lblCount.Size = new System.Drawing.Size(140, 34);
-            this.lblCount.StartColor = System.Drawing.Color.Yellow;
+            this.lblCount.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
             this.lblCount.TabIndex = 35;
             this.lblCount.Text = "Count";
             // 
@@ -626,15 +628,15 @@
             // 
             this.lblTimeElapsed.BackColor = System.Drawing.Color.Transparent;
             this.lblTimeElapsed.CornerRadius = 25;
-            this.lblTimeElapsed.EndColor = System.Drawing.Color.White;
+            this.lblTimeElapsed.EndColor = System.Drawing.Color.Yellow;
             this.lblTimeElapsed.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTimeElapsed.HoverEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(0)))));
-            this.lblTimeElapsed.HoverStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.lblTimeElapsed.HoverEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
+            this.lblTimeElapsed.HoverStartColor = System.Drawing.Color.Yellow;
             this.lblTimeElapsed.Location = new System.Drawing.Point(675, 62);
             this.lblTimeElapsed.Margin = new System.Windows.Forms.Padding(4);
             this.lblTimeElapsed.Name = "lblTimeElapsed";
             this.lblTimeElapsed.Size = new System.Drawing.Size(140, 34);
-            this.lblTimeElapsed.StartColor = System.Drawing.Color.Yellow;
+            this.lblTimeElapsed.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
             this.lblTimeElapsed.TabIndex = 34;
             this.lblTimeElapsed.Text = "Time Elapsed";
             // 
@@ -642,15 +644,15 @@
             // 
             this.lblDeskSelection.BackColor = System.Drawing.Color.Transparent;
             this.lblDeskSelection.CornerRadius = 25;
-            this.lblDeskSelection.EndColor = System.Drawing.Color.White;
+            this.lblDeskSelection.EndColor = System.Drawing.Color.Yellow;
             this.lblDeskSelection.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDeskSelection.HoverEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(0)))));
-            this.lblDeskSelection.HoverStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.lblDeskSelection.HoverEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
+            this.lblDeskSelection.HoverStartColor = System.Drawing.Color.Yellow;
             this.lblDeskSelection.Location = new System.Drawing.Point(675, 20);
             this.lblDeskSelection.Margin = new System.Windows.Forms.Padding(4);
             this.lblDeskSelection.Name = "lblDeskSelection";
             this.lblDeskSelection.Size = new System.Drawing.Size(140, 34);
-            this.lblDeskSelection.StartColor = System.Drawing.Color.Yellow;
+            this.lblDeskSelection.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
             this.lblDeskSelection.TabIndex = 33;
             this.lblDeskSelection.Text = "Desk Selection";
             // 
@@ -658,15 +660,15 @@
             // 
             this.rounded_Button5.BackColor = System.Drawing.Color.Transparent;
             this.rounded_Button5.CornerRadius = 25;
-            this.rounded_Button5.EndColor = System.Drawing.Color.White;
+            this.rounded_Button5.EndColor = System.Drawing.Color.Yellow;
             this.rounded_Button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rounded_Button5.HoverEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(0)))));
-            this.rounded_Button5.HoverStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.rounded_Button5.HoverEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
+            this.rounded_Button5.HoverStartColor = System.Drawing.Color.Yellow;
             this.rounded_Button5.Location = new System.Drawing.Point(352, 62);
             this.rounded_Button5.Margin = new System.Windows.Forms.Padding(4);
             this.rounded_Button5.Name = "rounded_Button5";
             this.rounded_Button5.Size = new System.Drawing.Size(140, 34);
-            this.rounded_Button5.StartColor = System.Drawing.Color.Yellow;
+            this.rounded_Button5.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
             this.rounded_Button5.TabIndex = 32;
             this.rounded_Button5.Text = "Cy Movement";
             // 
@@ -674,15 +676,15 @@
             // 
             this.lblProcessStep.BackColor = System.Drawing.Color.Transparent;
             this.lblProcessStep.CornerRadius = 25;
-            this.lblProcessStep.EndColor = System.Drawing.Color.White;
+            this.lblProcessStep.EndColor = System.Drawing.Color.Yellow;
             this.lblProcessStep.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblProcessStep.HoverEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(0)))));
-            this.lblProcessStep.HoverStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.lblProcessStep.HoverEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
+            this.lblProcessStep.HoverStartColor = System.Drawing.Color.Yellow;
             this.lblProcessStep.Location = new System.Drawing.Point(352, 20);
             this.lblProcessStep.Margin = new System.Windows.Forms.Padding(4);
             this.lblProcessStep.Name = "lblProcessStep";
             this.lblProcessStep.Size = new System.Drawing.Size(140, 34);
-            this.lblProcessStep.StartColor = System.Drawing.Color.Yellow;
+            this.lblProcessStep.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
             this.lblProcessStep.TabIndex = 31;
             this.lblProcessStep.Text = "Process Step";
             // 
@@ -690,15 +692,15 @@
             // 
             this.lbWarningAlarm.BackColor = System.Drawing.Color.Transparent;
             this.lbWarningAlarm.CornerRadius = 25;
-            this.lbWarningAlarm.EndColor = System.Drawing.Color.White;
+            this.lbWarningAlarm.EndColor = System.Drawing.Color.Yellow;
             this.lbWarningAlarm.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbWarningAlarm.HoverEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(0)))));
-            this.lbWarningAlarm.HoverStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.lbWarningAlarm.HoverEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
+            this.lbWarningAlarm.HoverStartColor = System.Drawing.Color.Yellow;
             this.lbWarningAlarm.Location = new System.Drawing.Point(21, 62);
             this.lbWarningAlarm.Margin = new System.Windows.Forms.Padding(4);
             this.lbWarningAlarm.Name = "lbWarningAlarm";
             this.lbWarningAlarm.Size = new System.Drawing.Size(140, 34);
-            this.lbWarningAlarm.StartColor = System.Drawing.Color.Yellow;
+            this.lbWarningAlarm.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
             this.lbWarningAlarm.TabIndex = 30;
             this.lbWarningAlarm.Text = "Warning Alarm";
             // 
@@ -706,15 +708,15 @@
             // 
             this.lblSelectDesk.BackColor = System.Drawing.Color.Transparent;
             this.lblSelectDesk.CornerRadius = 25;
-            this.lblSelectDesk.EndColor = System.Drawing.Color.White;
+            this.lblSelectDesk.EndColor = System.Drawing.Color.Yellow;
             this.lblSelectDesk.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSelectDesk.HoverEndColor = System.Drawing.Color.White;
+            this.lblSelectDesk.HoverEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
             this.lblSelectDesk.HoverStartColor = System.Drawing.Color.Yellow;
             this.lblSelectDesk.Location = new System.Drawing.Point(21, 20);
             this.lblSelectDesk.Margin = new System.Windows.Forms.Padding(4);
             this.lblSelectDesk.Name = "lblSelectDesk";
             this.lblSelectDesk.Size = new System.Drawing.Size(140, 34);
-            this.lblSelectDesk.StartColor = System.Drawing.Color.Yellow;
+            this.lblSelectDesk.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(50)))));
             this.lblSelectDesk.TabIndex = 0;
             this.lblSelectDesk.Text = "Select Desk";
             // 
@@ -870,7 +872,7 @@
         private System.IO.Ports.SerialPort serialPort1;
         private System.Windows.Forms.Timer Date_Timer;
         private Guna.UI2.WinForms.Guna2GradientPanel panelHeader;
-        private Rounded_Button rounded_Button2;
+        private Rounded_Button btnBarcodePrint;
         private Rounded_Button btnClose;
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.PictureBox pictureBox1;

@@ -38,15 +38,15 @@
             // 
             this.btnPlanning.BackColor = System.Drawing.Color.Transparent;
             this.btnPlanning.CornerRadius = 20;
-            this.btnPlanning.EndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btnPlanning.EndColor = System.Drawing.Color.Yellow;
             this.btnPlanning.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPlanning.HoverEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(0)))));
-            this.btnPlanning.HoverStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btnPlanning.HoverEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
+            this.btnPlanning.HoverStartColor = System.Drawing.Color.Yellow;
             this.btnPlanning.Location = new System.Drawing.Point(468, 29);
             this.btnPlanning.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnPlanning.Name = "btnPlanning";
             this.btnPlanning.Size = new System.Drawing.Size(412, 50);
-            this.btnPlanning.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(0)))));
+            this.btnPlanning.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
             this.btnPlanning.TabIndex = 33;
             this.btnPlanning.Text = "Planning";
             // 
@@ -54,15 +54,15 @@
             // 
             this.btnConfiguration.BackColor = System.Drawing.Color.Transparent;
             this.btnConfiguration.CornerRadius = 20;
-            this.btnConfiguration.EndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btnConfiguration.EndColor = System.Drawing.Color.Yellow;
             this.btnConfiguration.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnConfiguration.HoverEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(0)))));
-            this.btnConfiguration.HoverStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btnConfiguration.HoverEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
+            this.btnConfiguration.HoverStartColor = System.Drawing.Color.Yellow;
             this.btnConfiguration.Location = new System.Drawing.Point(468, 145);
             this.btnConfiguration.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnConfiguration.Name = "btnConfiguration";
             this.btnConfiguration.Size = new System.Drawing.Size(412, 50);
-            this.btnConfiguration.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(0)))));
+            this.btnConfiguration.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
             this.btnConfiguration.TabIndex = 34;
             this.btnConfiguration.Text = "Configuration";
             this.btnConfiguration.Click += new System.EventHandler(this.btnConfiguration_Click);
@@ -71,15 +71,15 @@
             // 
             this.btnPictureConfiguration.BackColor = System.Drawing.Color.Transparent;
             this.btnPictureConfiguration.CornerRadius = 20;
-            this.btnPictureConfiguration.EndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btnPictureConfiguration.EndColor = System.Drawing.Color.Yellow;
             this.btnPictureConfiguration.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPictureConfiguration.HoverEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(0)))));
-            this.btnPictureConfiguration.HoverStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btnPictureConfiguration.HoverEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
+            this.btnPictureConfiguration.HoverStartColor = System.Drawing.Color.Yellow;
             this.btnPictureConfiguration.Location = new System.Drawing.Point(468, 261);
             this.btnPictureConfiguration.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnPictureConfiguration.Name = "btnPictureConfiguration";
             this.btnPictureConfiguration.Size = new System.Drawing.Size(412, 50);
-            this.btnPictureConfiguration.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(0)))));
+            this.btnPictureConfiguration.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
             this.btnPictureConfiguration.TabIndex = 35;
             this.btnPictureConfiguration.Text = "Picture Configuration";
             this.btnPictureConfiguration.Click += new System.EventHandler(this.btnPictureConfiguration_Click);
@@ -88,15 +88,15 @@
             // 
             this.btnClose.BackColor = System.Drawing.Color.Transparent;
             this.btnClose.CornerRadius = 20;
-            this.btnClose.EndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btnClose.EndColor = System.Drawing.Color.Yellow;
             this.btnClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClose.HoverEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(0)))));
-            this.btnClose.HoverStartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btnClose.HoverEndColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
+            this.btnClose.HoverStartColor = System.Drawing.Color.Yellow;
             this.btnClose.Location = new System.Drawing.Point(468, 377);
             this.btnClose.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(412, 50);
-            this.btnClose.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(0)))));
+            this.btnClose.StartColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(215)))), ((int)(((byte)(60)))));
             this.btnClose.TabIndex = 37;
             this.btnClose.Text = "Close";
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);

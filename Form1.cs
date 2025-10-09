@@ -29,8 +29,8 @@ namespace Wiring_Desk
         
         private byte[] rxBuffer = new byte[0];
 
-
-        public GTI()
+        private string username;
+        public GTI(string username)
 
         {
             InitializeComponent();
@@ -39,6 +39,9 @@ namespace Wiring_Desk
             SerialInit();
             UpdateShift();
 
+            this.username = username;
+            adminRights();
+          
             dummy = new DummyUC();
             dummy.Dock = DockStyle.Fill;
             panelUserControl.Controls.Add(dummy);
@@ -71,6 +74,23 @@ namespace Wiring_Desk
         {
             LoadUI();
            
+        }
+
+        private void adminRights()
+        {
+            if (username != "admin")
+            {
+                btnSettings.Visible = false;
+                btnClose.Visible = false;
+                btnBarcodePrint.Visible = false;
+            }
+            else
+            {
+                btnSettings.Visible = true;
+                btnClose.Visible = true;
+                btnBarcodePrint.Visible = true;
+            }
+
         }
       
         async public void Reset()
@@ -558,6 +578,13 @@ namespace Wiring_Desk
             btn_TimeElapsedDisable.StartColor = Color.Green;
         }
 
+        private void btnBarcodePrint_Click(object sender, EventArgs e)
+        {
+            using (BarcodePrinter form = new BarcodePrinter())
+            {
+                form.ShowDialog(this);
+            }
+        }
         private void btnPause_Click(object sender, EventArgs e)
         {
 
@@ -693,15 +720,31 @@ namespace Wiring_Desk
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Application.Exit();
         }
 
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+           
+        }
         private void Guna2Button1_MouseUp(object sender, MouseEventArgs e)
         {
 
             if (e.Button == MouseButtons.Right)
             {
                 buttonContextMenu.Show(guna2Button1, e.Location);
+            }
+
+            else if (e.Button == MouseButtons.Left)
+            {
+                if (serialPort1.IsOpen)
+                {
+                    serialPort1.DataReceived -= serialPort1_DataRecieved;
+                    serialPort1.Close();
+                }
+
+                this.DialogResult = DialogResult.OK; // signals logout
+                this.Close();
             }
         }
 
@@ -821,6 +864,6 @@ namespace Wiring_Desk
             }
         }
 
-
+      
     }
 }

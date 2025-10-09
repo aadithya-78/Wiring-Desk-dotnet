@@ -13,6 +13,8 @@ namespace Wiring_Desk
 {
     public partial class loginForm : Form
     {
+        public string Username { get; private set; }
+
         public loginForm()
         {
             InitializeComponent();
@@ -53,9 +55,9 @@ namespace Wiring_Desk
 
                         if (count == 1)
                         {
-                            this.Hide();
-                            GTI mainForm = new GTI();
-                            mainForm.Show();
+                            this.Username = username;
+                            this.DialogResult = DialogResult.OK;
+                            this.Close(); 
                         }
                         else
                         {

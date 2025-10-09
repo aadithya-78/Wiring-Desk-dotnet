@@ -401,7 +401,7 @@ namespace Wiring_Desk
             }
             else if (UARTSequence.Count == 0)
             {
-                relay_flag = 0;
+                
             }
 
             switch (relay_flag)
