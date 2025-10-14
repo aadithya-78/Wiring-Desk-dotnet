@@ -22,12 +22,16 @@ namespace Wiring_Desk
         private ImageWrapper imgWrapper;
         private AllConImage allCon;
         private DummyUC dummy;
+        private string btnselectDeskFlag = "MANUAL";
 
         private int hw_flags = 1;
         private Queue<int> UARTSequence = new Queue<int>();
         private bool startupRunning = false;
-        
+
         private byte[] rxBuffer = new byte[0];
+
+        private string scanBuffer = "";
+        private System.Windows.Forms.Timer scanTimer;
 
         private string username;
         public GTI(string username)
@@ -41,12 +45,12 @@ namespace Wiring_Desk
 
             this.username = username;
             adminRights();
-          
+
             dummy = new DummyUC();
             dummy.Dock = DockStyle.Fill;
             panelUserControl.Controls.Add(dummy);
 
-            DateTime today = DateTime.Today; 
+            DateTime today = DateTime.Today;
             btnDate.Text = today.ToString();
 
             this.FormBorderStyle = FormBorderStyle.None;
@@ -73,7 +77,10 @@ namespace Wiring_Desk
         private void GTI_Load(object sender, EventArgs e)
         {
             LoadUI();
-           
+            scanTimer = new System.Windows.Forms.Timer();
+            scanTimer.Interval = 50; 
+            scanTimer.Tick += ScanTimer_Tick;
+
         }
 
         private void adminRights()
@@ -90,9 +97,8 @@ namespace Wiring_Desk
                 btnClose.Visible = true;
                 btnBarcodePrint.Visible = true;
             }
-
         }
-      
+
         async public void Reset()
         {
             actualCycleTimeInSeconds = 0;
@@ -107,14 +113,13 @@ namespace Wiring_Desk
 
             imgWrapper?.stopTimers();
             rxtxTimerHome.Start();
-            await Task.Delay(500); 
+            await Task.Delay(500);
             panelUserControl.Controls.Clear();
-           
+
             UARTSequence.Enqueue(2);
             UARTSequence.Enqueue(5);
             UARTSequence.Enqueue(7);
             startupRunning = true;
-
             deskChanged();
         }
 
@@ -123,21 +128,74 @@ namespace Wiring_Desk
             deskChanged();
         }
 
+        private void ScanTimer_Tick(object sender, EventArgs e)
+        {
+            scanTimer.Stop();
+
+            string scannedValue = scanBuffer.Trim();
+            scanBuffer = ""; 
+
+            if (string.IsNullOrEmpty(scannedValue))
+                return;
+
+            int index = -1;
+            for (int i = 0; i < selectDesk.Items.Count; i++)
+            {
+                if (string.Equals(selectDesk.Items[i].ToString().Trim(), scannedValue, StringComparison.OrdinalIgnoreCase))
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            if (index != -1)
+            {
+                selectDesk.SelectedIndex = index;        
+            }
+            else
+            {
+                MessageBox.Show($"No matching desk found: {scannedValue}");
+            }
+        }
+
+        private void selectDesk_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            scanBuffer += e.KeyChar;
+
+            scanTimer.Stop();
+            scanTimer.Start();
+
+            e.Handled = false; 
+        }
+
+        private void selectDesk_Leave(object sender, EventArgs e)
+        {
+            selectDesk.Focus();
+        }
+
+        private void stopHomeTimers()
+        {
+            rxtxTimerHome.Stop();
+            cycleTimer.Stop();
+            Date_Timer.Stop();
+        }
+
         private void deskChanged()
         {
             if (selectDesk.SelectedItem != null)
             {
-                string selectedFile = selectDesk.SelectedItem.ToString();
+                string selectedFile = "";
+                selectedFile = selectDesk.SelectedItem.ToString();
                 ProcessReader.LoadProcess(selectedFile);
-
+               
                 if (allCon != null)
                 {
-                    allCon.stopTimers();          
-                    panelUserControl.Controls.Clear(); 
-                    allCon.Dispose();            
+                    allCon.stopTimers();
+                    panelUserControl.Controls.Clear();
+                    allCon.Dispose();
                     allCon = null;
                 }
-              
+
                 panelUserControl.Controls.Clear();
                 allCon = new AllConImage(serialPort1);
                 allCon.SetParentForm(this);
@@ -146,7 +204,6 @@ namespace Wiring_Desk
 
                 allCon.startTimers();
                 allCon.LoadImagesFromProcess(selectedFile);
-
 
                 if (allCon != null) allCon.startTriggered = false; //Hardware start push button flag
                 allCon.StartRequested += HandleStartRequested; //hardware start push button task
@@ -172,6 +229,7 @@ namespace Wiring_Desk
                             actualCycleTimeInSeconds = 0;
                             lblActualTargetTime.ForeColor = Color.Black;
                             cycleTimer.Start();
+                            processState.deskName = selectedFile.ToString();
                         }
                         else
                         {
@@ -204,34 +262,34 @@ namespace Wiring_Desk
 
         private void SerialInit()
         {
-                try
+            try
+            {
+                if (!serialPort1.IsOpen)
                 {
-                    if (!serialPort1.IsOpen)
-                    {
-                        string portNumberStr = ConfigReader.ConfigCSV[2][10];
+                    string portNumberStr = ConfigReader.ConfigCSV[2][10];
                     if (!int.TryParse(portNumberStr, out int portNumber))
-                        {
-                            MessageBox.Show("Invalid COM port number in CSV.");
-                            return;
-                        }
-
-                        serialPort1.PortName = "COM" + portNumber;
-                        serialPort1.BaudRate = 19200;
-                        serialPort1.Open();
-                        serialPort1.RtsEnable = false;
-                        serialPort1.DtrEnable = true;
-                        serialPort1.DtrEnable = false;
-                        panelComIndicator.BackColor = Color.Green;
-                }
-                    else
                     {
-                     panelComIndicator.BackColor = Color.Red;
+                        MessageBox.Show("Invalid COM port number in CSV.");
+                        return;
                     }
+
+                    serialPort1.PortName = "COM" + portNumber;
+                    serialPort1.BaudRate = 19200;
+                    serialPort1.Open();
+                    serialPort1.RtsEnable = false;
+                    serialPort1.DtrEnable = true;
+                    serialPort1.DtrEnable = false;
+                    panelComIndicator.BackColor = Color.Green;
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show("Error opening serial port: " + ex.Message);
+                    panelComIndicator.BackColor = Color.Red;
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error opening serial port: " + ex.Message);
+            }
         }
 
 
@@ -243,14 +301,14 @@ namespace Wiring_Desk
             buttonContextMenu.Items.Add("Create User", null, (s, e) => CreateUser());
             buttonContextMenu.Items.Add("Update Password", null, (s, e) => UpdatePassword());
             buttonContextMenu.Items.Add("Delete User", null, (s, e) => DeleteUser());
-            buttonContextMenu.Items.Add("Close", null, (s, e) => buttonContextMenu.Close()); 
+            buttonContextMenu.Items.Add("Close", null, (s, e) => buttonContextMenu.Close());
         }
 
         private void CreateUser()
         {
             using (CreateUserForm form = new CreateUserForm())
             {
-                form.ShowDialog(this);  
+                form.ShowDialog(this);
             }
         }
 
@@ -279,14 +337,14 @@ namespace Wiring_Desk
             }
             else
             {
-                btnDate.Text = DateTime.Now.ToString("dd-MM-yy");  
+                btnDate.Text = DateTime.Now.ToString("dd-MM-yy");
                 btnTime.Text = DateTime.Now.ToLongTimeString();
             }
         }
 
         private void cycleTimer_Tick(object sender, EventArgs e)
         {
-        
+
             actualCycleTimeInSeconds++;
             int minutes = actualCycleTimeInSeconds / 60;
             int seconds = actualCycleTimeInSeconds % 60;
@@ -299,7 +357,7 @@ namespace Wiring_Desk
             }
             else
             {
-                lblActualTargetTime.ForeColor = Color.Black; 
+                lblActualTargetTime.ForeColor = Color.Black;
             }
         }
 
@@ -317,7 +375,7 @@ namespace Wiring_Desk
         {
             try
             {
-                ConfigReader.LoadConfig(); 
+                ConfigReader.LoadConfig();
             }
             catch (Exception ex)
             {
@@ -327,7 +385,6 @@ namespace Wiring_Desk
 
         private void LoadUI()
         {
-            lblTargetCount.SelectionAlignment = HorizontalAlignment.Center;
             lblActualCount.SelectionAlignment = HorizontalAlignment.Center;
             lblActualTargetTime.SelectionAlignment = HorizontalAlignment.Center;
             lblTargetCycleTime.SelectionAlignment = HorizontalAlignment.Center;
@@ -339,6 +396,24 @@ namespace Wiring_Desk
             btnStepDecr.Enabled = false;
             btnStepIncr.Enabled = false;
             btnStart.Enabled = false;
+
+            string lineName = ConfigReader.ConfigCSV[9][10];
+            processState.lineName = lineName;
+
+            string subName = ConfigReader.ConfigCSV[9][11];
+            processState.subName = subName;
+
+            string opName = username;
+            btnLogin.Text = username;
+            processState.operatorName = opName;
+
+            string targetCount = ConfigReader.ConfigCSV[7][10];
+            processState.targetCount = int.TryParse(targetCount, out int temp) ? temp : 0;
+            lblTargetCount.Text = processState.targetCount.ToString();
+            lblTargetCount.SelectionAlignment = HorizontalAlignment.Center;
+
+            string SwitchTwo = ConfigReader.ConfigCSV[2][12];
+            processState.switchTwo = SwitchTwo;
 
         }
 
@@ -380,7 +455,7 @@ namespace Wiring_Desk
 
         private void rxtxTimerHome_Tick(object sender, EventArgs e)
         {
-           if (startupRunning && UARTSequence.Count > 0)
+            if (startupRunning && UARTSequence.Count > 0)
             {
                 hw_flags = UARTSequence.Dequeue();
             }
@@ -497,11 +572,10 @@ namespace Wiring_Desk
 
         /*---------------------------------------------------------------BUTTONS------------------------------------------------------------------*/
 
-
         private void btnWarning_OnClick(object sender, EventArgs e)
         {
             hw_flags = 6;
-            if(allCon != null) allCon.UARTSequence.Enqueue(5);
+            if (allCon != null) allCon.UARTSequence.Enqueue(5);
             if (imgWrapper != null) imgWrapper.relay_flag = 1;
 
             btn_WarOn.HoverStartColor = Color.FromArgb(140, 255, 140);
@@ -515,9 +589,9 @@ namespace Wiring_Desk
             btn_WarOn.EndColor = Color.FromArgb(140, 255, 140);//Green
             btn_WarOff.EndColor = Color.FromArgb(255, 140, 140);//Red
 
-          
 
-           
+
+
         }
 
         private void btnWarningOff_OnClick(object sender, EventArgs e)
@@ -536,10 +610,10 @@ namespace Wiring_Desk
             btn_WarOn.StartColor = Color.Red;
             btn_WarOff.StartColor = Color.Green;
 
-            btn_WarOn.EndColor = Color.FromArgb(255,140,140);//Red
-            btn_WarOff.EndColor = Color.FromArgb(140,255,140);//Green
+            btn_WarOn.EndColor = Color.FromArgb(255, 140, 140);//Red
+            btn_WarOff.EndColor = Color.FromArgb(140, 255, 140);//Green
 
-          
+
 
         }
 
@@ -550,7 +624,7 @@ namespace Wiring_Desk
 
         private void btnStepDecr_Click(object sender, EventArgs e)
         {
-           imgWrapper.CurrentRowIndex--;   
+            imgWrapper.CurrentRowIndex--;
         }
 
         private void btnCyEnable_Click(object sender, EventArgs e)
@@ -564,10 +638,10 @@ namespace Wiring_Desk
 
             btn_CyEnable.StartColor = Color.Green;
             btn_CyEnable.EndColor = Color.FromArgb(140, 255, 140); // gradient lighter green
-           
+
             btn_CyDisable.StartColor = Color.Red;
             btn_CyDisable.EndColor = Color.FromArgb(255, 140, 140); // gradient lighter red
-         
+
         }
 
         private void btnCyDisable_Click(object sender, EventArgs e)
@@ -580,10 +654,10 @@ namespace Wiring_Desk
 
             btn_CyEnable.StartColor = Color.Red;
             btn_CyEnable.EndColor = Color.FromArgb(255, 140, 140); // gradient lighter red
-           
+
             btn_CyDisable.StartColor = Color.Green;
             btn_CyDisable.EndColor = Color.FromArgb(140, 255, 140); // gradient lighter green
-           
+
         }
 
         private void btnScanner_Click(object sender, EventArgs e)
@@ -594,12 +668,16 @@ namespace Wiring_Desk
             btn_Manual.HoverStartColor = Color.FromArgb(255, 140, 140);
             btn_Manual.HoverEndColor = Color.Red;
 
+            btnselectDeskFlag = "SCANNER";
+            selectDesk.DropDownStyle = ComboBoxStyle.DropDown;
+            selectDesk.Focus();
+
             btn_Scanner.StartColor = Color.Green;
             btn_Scanner.EndColor = Color.FromArgb(140, 255, 140); // gradient lighter green
-        
+
             btn_Manual.StartColor = Color.Red;
             btn_Manual.EndColor = Color.FromArgb(255, 140, 140); // gradient lighter red
-          
+
         }
 
         private void btnManual_Click(object sender, EventArgs e)
@@ -610,12 +688,15 @@ namespace Wiring_Desk
             btn_Manual.HoverStartColor = Color.FromArgb(140, 255, 140);
             btn_Manual.HoverEndColor = Color.Green;
 
+            btnselectDeskFlag = "MANUAL";
+            selectDesk.DropDownStyle = ComboBoxStyle.DropDownList;
+
             btn_Scanner.StartColor = Color.Red;
             btn_Scanner.EndColor = Color.FromArgb(255, 140, 140); // gradient lighter red
-           
+
             btn_Manual.StartColor = Color.Green;
             btn_Manual.EndColor = Color.FromArgb(140, 255, 140); // gradient lighter green
-         
+
         }
 
         private void btnTimeElapsedEnable_Click(object sender, EventArgs e)
@@ -628,10 +709,10 @@ namespace Wiring_Desk
 
             btn_TimeElapsedEnable.StartColor = Color.Green;
             btn_TimeElapsedEnable.EndColor = Color.FromArgb(140, 255, 140); // gradient lighter green
-          
+
             btn_TimeElapsedDisable.StartColor = Color.Red;
             btn_TimeElapsedDisable.EndColor = Color.FromArgb(255, 140, 140); // gradient lighter red
-          
+
         }
 
         private void btnTimeElapsedDisable_Click(object sender, EventArgs e)
@@ -644,10 +725,10 @@ namespace Wiring_Desk
 
             btn_TimeElapsedEnable.StartColor = Color.Red;
             btn_TimeElapsedEnable.EndColor = Color.FromArgb(255, 140, 140); // gradient lighter red
-          
+
             btn_TimeElapsedDisable.StartColor = Color.Green;
             btn_TimeElapsedDisable.EndColor = Color.FromArgb(140, 255, 140); // gradient lighter green
-           
+
         }
 
         private void btnBarcodePrint_Click(object sender, EventArgs e)
@@ -657,9 +738,27 @@ namespace Wiring_Desk
                 form.ShowDialog(this);
             }
         }
+
+        private string lastInstruction = "";
         private void btnPause_Click(object sender, EventArgs e)
         {
 
+            if (allCon == null && imgWrapper == null) return;
+            processState.pauseFlag = !processState.pauseFlag;
+
+            if (processState.pauseFlag)
+            {
+                lastInstruction = labelInstruction.Text;
+                cycleTimer.Stop();
+                btnPause.Text = "Resume";
+                labelInstruction.Text = "SYSTEM IS PAUSED, PLEASE CLICK RESUME BUTTON TO RESUME THE PROCESS";
+            }
+            else
+            {
+                cycleTimer.Start();
+                btnPause.Text = "Pause";
+                labelInstruction.Text = lastInstruction;
+            }
         }
 
         private void btnReset_Click(object sender, EventArgs e)
@@ -709,7 +808,7 @@ namespace Wiring_Desk
             labelInstruction.Text = $"PRESS START TO RUN {selectDesk.SelectedItem.ToString()} OR SCAN NEW DESK";
             lblActualCount.Text = processState.actualCount.ToString();
             lblActualCount.SelectionAlignment = HorizontalAlignment.Center;
-  
+
         }
 
         private void ImgWrapper_StepChanged(int stepNumber, string instruction)
@@ -719,7 +818,7 @@ namespace Wiring_Desk
                 lblStepIndicator.Invoke(new Action(() =>
                 {
                     lblStepIndicator.Text = stepNumber.ToString();
-                    labelInstruction.Text = instruction;  
+                    labelInstruction.Text = instruction;
                 }));
             }
             else
@@ -768,7 +867,7 @@ namespace Wiring_Desk
                 }
             }
 
-            else if(processState.userControl == "DUMMY")
+            else if (processState.userControl == "DUMMY")
             {
                 processState.userControl = "";
                 deskChanged();
@@ -792,12 +891,14 @@ namespace Wiring_Desk
 
         private void btnClose_Click(object sender, EventArgs e)
         {
+            stopHomeTimers();
+            serialPort1?.Close();  // very common cause of hang
             Application.Exit();
         }
 
         private void guna2Button1_Click(object sender, EventArgs e)
         {
-           
+
         }
         private void Guna2Button1_MouseUp(object sender, MouseEventArgs e)
         {
@@ -807,17 +908,17 @@ namespace Wiring_Desk
                 buttonContextMenu.Show(guna2Button1, e.Location);
             }
 
-            else if (e.Button == MouseButtons.Left)
-            {
-                if (serialPort1.IsOpen)
-                {
-                    serialPort1.DataReceived -= serialPort1_DataRecieved;
-                    serialPort1.Close();
-                }
+            /*   else if (e.Button == MouseButtons.Left)
+               {
+                   if (serialPort1.IsOpen)
+                   {
+                       serialPort1.DataReceived -= serialPort1_DataRecieved;
+                       serialPort1.Close();
+                   }
 
-                this.DialogResult = DialogResult.OK; // signals logout
-                this.Close();
-            }
+                   this.DialogResult = DialogResult.OK; // signals logout
+                   this.Close();
+               }*/
         }
 
         private void panelConfig_Paint(object sender, PaintEventArgs e)
@@ -874,13 +975,15 @@ namespace Wiring_Desk
                 for (int i = 0; i < numShifts; i++)
                 {
                     int row = 11 + i;
-                    int startH = int.Parse(ConfigReader.Get(row, 10)); 
-                    int startM = int.Parse(ConfigReader.Get(row, 11));
-                    int endH = int.Parse(ConfigReader.Get(row, 13)); 
-                    int endM = int.Parse(ConfigReader.Get(row, 14));
+                    string startStr = ConfigReader.Get(row, 10);
+                    string endStr = ConfigReader.Get(row, 11);
 
-                    DateTime startTime = new DateTime(now.Year, now.Month, now.Day, startH, startM, 0);
-                    DateTime endTime = new DateTime(now.Year, now.Month, now.Day, endH, endM, 0);
+                    if (!DateTime.TryParseExact(startStr, "HH:mm", null, System.Globalization.DateTimeStyles.None, out DateTime startTime) ||
+                        !DateTime.TryParseExact(endStr, "HH:mm", null, System.Globalization.DateTimeStyles.None, out DateTime endTime))
+                        continue;
+
+                    startTime = new DateTime(now.Year, now.Month, now.Day, startTime.Hour, startTime.Minute, 0);
+                    endTime = new DateTime(now.Year, now.Month, now.Day, endTime.Hour, endTime.Minute, 0);
 
                     if (endTime < startTime)
                         endTime = endTime.AddDays(1);
@@ -894,7 +997,6 @@ namespace Wiring_Desk
 
                 btnShift.Text = currentShift;
                 CheckShiftCollision(numShifts);
-
             }
             catch (Exception ex)
             {
@@ -902,40 +1004,48 @@ namespace Wiring_Desk
             }
         }
 
+
         private void CheckShiftCollision(int numShifts)
         {
             for (int i = 0; i < numShifts; i++)
             {
                 int row1 = 11 + i;
-                int sH1 = int.Parse(ConfigReader.Get(row1, 10));
-                int sM1 = int.Parse(ConfigReader.Get(row1, 11));
-                int eH1 = int.Parse(ConfigReader.Get(row1, 13));
-                int eM1 = int.Parse(ConfigReader.Get(row1, 14));
 
-                DateTime s1 = new DateTime(1, 1, 1, sH1, sM1, 0);
-                DateTime e1 = new DateTime(1, 1, 1, eH1, eM1, 0);
+                string startStr1 = ConfigReader.Get(row1, 10);
+                string endStr1 = ConfigReader.Get(row1, 11);
+
+                if (!DateTime.TryParseExact(startStr1, "HH:mm", null, System.Globalization.DateTimeStyles.None, out DateTime s1) ||
+                    !DateTime.TryParseExact(endStr1, "HH:mm", null, System.Globalization.DateTimeStyles.None, out DateTime e1))
+                    continue;
+
+                s1 = new DateTime(1, 1, 1, s1.Hour, s1.Minute, 0);
+                e1 = new DateTime(1, 1, 1, e1.Hour, e1.Minute, 0);
                 if (e1 < s1) e1 = e1.AddDays(1);
 
                 for (int j = i + 1; j < numShifts; j++)
                 {
                     int row2 = 11 + j;
-                    int sH2 = int.Parse(ConfigReader.Get(row2, 10));
-                    int sM2 = int.Parse(ConfigReader.Get(row2, 11));
-                    int eH2 = int.Parse(ConfigReader.Get(row2, 13));
-                    int eM2 = int.Parse(ConfigReader.Get(row2, 14));
 
-                    DateTime s2 = new DateTime(1, 1, 1, sH2, sM2, 0);
-                    DateTime e2 = new DateTime(1, 1, 1, eH2, eM2, 0);
+                    string startStr2 = ConfigReader.Get(row2, 10);
+                    string endStr2 = ConfigReader.Get(row2, 11);
+
+                    if (!DateTime.TryParseExact(startStr2, "HH:mm", null, System.Globalization.DateTimeStyles.None, out DateTime s2) ||
+                        !DateTime.TryParseExact(endStr2, "HH:mm", null, System.Globalization.DateTimeStyles.None, out DateTime e2))
+                        continue;
+
+                    s2 = new DateTime(1, 1, 1, s2.Hour, s2.Minute, 0);
+                    e2 = new DateTime(1, 1, 1, e2.Hour, e2.Minute, 0);
                     if (e2 < s2) e2 = e2.AddDays(1);
 
                     if (s1 < e2 && s2 < e1)
                     {
-                        MessageBox.Show($"Shift {(char)('A' + i)} and Shift {(char)('A' + j)} collide!", "Shift Collision");
+                        MessageBox.Show(
+                            $"Shift {(char)('A' + i)} and Shift {(char)('A' + j)} collide!",
+                            "Shift Collision"
+                        );
                     }
                 }
             }
         }
-
-      
     }
 }

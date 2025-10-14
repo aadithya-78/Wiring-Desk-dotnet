@@ -25,6 +25,7 @@ namespace Wiring_Desk
         private byte[] rxBuffer = new byte[0];
         private bool rowAdvanced = false;
         private bool rowAdvancedEcon = false;
+        private bool rowAdvancedSW2 = false;
         public event Action<int, string> StepChanged;
         private Queue<int> UARTSequence = new Queue<int>();
         private bool blueOffFlag = false;
@@ -36,7 +37,7 @@ namespace Wiring_Desk
             get => currentRowIndex;
             set
             {
-                if (value >= 5 && value < processCsv.Count) 
+                if (value >= 5 && value < processCsv.Count && processState.pauseFlag == false) 
                 {
                     currentRowIndex = value;
                     LoadImagesForCurrentRow();
@@ -352,6 +353,8 @@ namespace Wiring_Desk
                 {
                     rowAdvanced = false;
                 }
+
+
             }
 
             else if (conName.StartsWith("E-CON", StringComparison.OrdinalIgnoreCase))
@@ -360,7 +363,7 @@ namespace Wiring_Desk
                 if (dataIndex >= frame.Length - 1) return;
                 byte value = frame[dataIndex];
 
-                if (value == 0x01 && !rowAdvancedEcon)
+                if ((value == 0x01) && !rowAdvancedEcon)
                 {
                     if (CurrentRowIndex + 1 < processCsv.Count)
                     {
@@ -383,6 +386,38 @@ namespace Wiring_Desk
                 else if (value == 0x00)
                 {
                     rowAdvancedEcon = false;
+                }
+
+            }
+
+
+            if (conName.StartsWith("E-CON", StringComparison.OrdinalIgnoreCase) || conName.StartsWith("CON-", StringComparison.OrdinalIgnoreCase))
+            {
+                int dataIndex = 5;
+                if (dataIndex >= frame.Length - 1) return;
+                byte value = frame[dataIndex];
+
+                if (value == 0x02 && !rowAdvancedSW2)
+                {
+                    string direction = processState.switchTwo?.Trim().ToUpper();
+
+                    if (direction == "FORWARD")
+                    {
+                        if (CurrentRowIndex + 1 < processCsv.Count)
+                            rowAdvancedSW2 = true;
+                            CurrentRowIndex++;
+                    }
+                    else if (direction == "BACKWARD")
+                    {
+                        if (CurrentRowIndex > 0)
+                            rowAdvancedSW2 = true;
+                            CurrentRowIndex--;
+                    }
+                }
+
+                else if (value == 0x00)
+                {
+                    rowAdvancedSW2 = false;
                 }
 
             }

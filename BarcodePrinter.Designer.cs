@@ -38,7 +38,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.btnCreate = new Guna.UI2.WinForms.Guna2GradientButton();
+            this.btnPrint = new Guna.UI2.WinForms.Guna2GradientButton();
             this.bp_btnUpdate = new Guna.UI2.WinForms.Guna2GradientButton();
             this.bp_btnReset = new Guna.UI2.WinForms.Guna2GradientButton();
             this.bp_TimePicker = new System.Windows.Forms.DateTimePicker();
@@ -54,6 +54,7 @@
             this.bp_rtbDeskName.Size = new System.Drawing.Size(320, 28);
             this.bp_rtbDeskName.TabIndex = 76;
             this.bp_rtbDeskName.Text = "";
+            this.bp_rtbDeskName.TextChanged += new System.EventHandler(this.bp_rtbDeskName_TextChanged);
             // 
             // bp_rtbLineName
             // 
@@ -148,26 +149,26 @@
             this.label5.TabIndex = 85;
             this.label5.Text = "Date / Time";
             // 
-            // btnCreate
+            // btnPrint
             // 
-            this.btnCreate.BorderColor = System.Drawing.Color.Transparent;
-            this.btnCreate.BorderThickness = 2;
-            this.btnCreate.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnCreate.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnCreate.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnCreate.DisabledState.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnCreate.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnCreate.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(190)))), ((int)(((byte)(219)))));
-            this.btnCreate.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(80)))), ((int)(((byte)(219)))));
-            this.btnCreate.Font = new System.Drawing.Font("Segoe UI Black", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCreate.ForeColor = System.Drawing.Color.White;
-            this.btnCreate.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            this.btnCreate.Location = new System.Drawing.Point(316, 275);
-            this.btnCreate.Name = "btnCreate";
-            this.btnCreate.Size = new System.Drawing.Size(320, 39);
-            this.btnCreate.TabIndex = 86;
-            this.btnCreate.Text = "Print";
-            this.btnCreate.Click += new System.EventHandler(this.btnCreate_Click);
+            this.btnPrint.BorderColor = System.Drawing.Color.Transparent;
+            this.btnPrint.BorderThickness = 2;
+            this.btnPrint.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnPrint.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnPrint.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnPrint.DisabledState.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnPrint.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnPrint.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(190)))), ((int)(((byte)(219)))));
+            this.btnPrint.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(80)))), ((int)(((byte)(219)))));
+            this.btnPrint.Font = new System.Drawing.Font("Segoe UI Black", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPrint.ForeColor = System.Drawing.Color.White;
+            this.btnPrint.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            this.btnPrint.Location = new System.Drawing.Point(316, 275);
+            this.btnPrint.Name = "btnPrint";
+            this.btnPrint.Size = new System.Drawing.Size(320, 39);
+            this.btnPrint.TabIndex = 86;
+            this.btnPrint.Text = "Print";
+            this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
             // 
             // bp_btnUpdate
             // 
@@ -207,7 +208,7 @@
             this.bp_btnReset.Name = "bp_btnReset";
             this.bp_btnReset.Size = new System.Drawing.Size(80, 28);
             this.bp_btnReset.TabIndex = 88;
-            this.bp_btnReset.Text = "Print";
+            this.bp_btnReset.Text = "Reset";
             // 
             // bp_TimePicker
             // 
@@ -227,7 +228,7 @@
             this.Controls.Add(this.bp_TimePicker);
             this.Controls.Add(this.bp_btnReset);
             this.Controls.Add(this.bp_btnUpdate);
-            this.Controls.Add(this.btnCreate);
+            this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -258,7 +259,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private Guna.UI2.WinForms.Guna2GradientButton btnCreate;
+        private Guna.UI2.WinForms.Guna2GradientButton btnPrint;
         private Guna.UI2.WinForms.Guna2GradientButton bp_btnUpdate;
         private Guna.UI2.WinForms.Guna2GradientButton bp_btnReset;
         private System.Windows.Forms.DateTimePicker bp_TimePicker;

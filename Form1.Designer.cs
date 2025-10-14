@@ -434,6 +434,8 @@
             this.selectDesk.Size = new System.Drawing.Size(148, 31);
             this.selectDesk.TabIndex = 49;
             this.selectDesk.SelectedIndexChanged += new System.EventHandler(this.selectDesk_SelectedIndexChanged);
+            this.selectDesk.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.selectDesk_KeyPress);
+            this.selectDesk.Leave += new System.EventHandler(this.selectDesk_Leave);
             // 
             // label3
             // 
@@ -774,7 +776,7 @@
             this.lblTargetCount.Size = new System.Drawing.Size(79, 34);
             this.lblTargetCount.TabIndex = 26;
             this.lblTargetCount.Tag = "";
-            this.lblTargetCount.Text = "50";
+            this.lblTargetCount.Text = "0";
             // 
             // lblStepIndicator
             // 

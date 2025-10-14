@@ -16,8 +16,6 @@ namespace Wiring_Desk
         [STAThread]
         static void Main()
         {
-
-            // 1️⃣ Set the centralized DLL path
             string sharedDllPath = @"C:\Program Files (x86)\Phoeneix Process Automation\Wiring Desk Setup";
 
 
@@ -29,11 +27,10 @@ namespace Wiring_Desk
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
-                return; // Exit the app safely
+                return; 
             }
 
 
-            // 2️⃣ Hook up AssemblyResolve to load from that folder
             AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
             {
                 string assemblyName = new AssemblyName(args.Name).Name + ".dll";
