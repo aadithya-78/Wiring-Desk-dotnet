@@ -30,7 +30,7 @@ namespace Wiring_Desk
 
         private void ShowOSK()
         {
-            string oskPath = @"C:\Program Files (x86)\Phoeneix Process Automation\Wiring Desk Setup\OnScreenKeyboard2.exe";
+            string oskPath = @"C:\Program Files (x86)\Phoeneix Process Automation\Wiring Desk Setup\OnScreenKeyboard.exe";
 
             if (!File.Exists(oskPath))
             {

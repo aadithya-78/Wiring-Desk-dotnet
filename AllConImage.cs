@@ -67,7 +67,11 @@ namespace Wiring_Desk
                 .Distinct()
                 .OrderBy(val => val)
                 .ToList();
-            conCount = conValuesTx.Count;
+
+            if (conValuesTx.Any()) 
+            {
+                conCount = conValuesTx.Max();
+            }
 
             binValuesTx = ProcessReader.Process_CSV
                 .Skip(5)
@@ -84,7 +88,10 @@ namespace Wiring_Desk
                 .OrderBy(val => val)
                 .ToList();
 
-            binCount = binValuesTx.Count;
+            if (binValuesTx.Any()) 
+            {
+                binCount = binValuesTx.Max();
+            }
 
             startupRunning = true;
             serialPort1 = _serialPort1;

@@ -589,9 +589,6 @@ namespace Wiring_Desk
             btn_WarOn.EndColor = Color.FromArgb(140, 255, 140);//Green
             btn_WarOff.EndColor = Color.FromArgb(255, 140, 140);//Red
 
-
-
-
         }
 
         private void btnWarningOff_OnClick(object sender, EventArgs e)
@@ -606,15 +603,11 @@ namespace Wiring_Desk
             btn_WarOff.HoverStartColor = Color.FromArgb(140, 255, 140);
             btn_WarOff.HoverEndColor = Color.Green;
 
-
             btn_WarOn.StartColor = Color.Red;
             btn_WarOff.StartColor = Color.Green;
 
             btn_WarOn.EndColor = Color.FromArgb(255, 140, 140);//Red
             btn_WarOff.EndColor = Color.FromArgb(140, 255, 140);//Green
-
-
-
         }
 
         private void btnStepIncr_Click(object sender, EventArgs e)
@@ -748,6 +741,14 @@ namespace Wiring_Desk
 
             if (processState.pauseFlag)
             {
+                if (allCon != null)
+                {
+                    allCon.UARTSequence.Enqueue(2);
+                    allCon.UARTSequence.Enqueue(4);
+                    allCon.UARTSequence.Enqueue(6);
+                    allCon.UARTSequence.Enqueue(1);
+                }
+
                 lastInstruction = labelInstruction.Text;
                 cycleTimer.Stop();
                 btnPause.Text = "Resume";
@@ -755,6 +756,12 @@ namespace Wiring_Desk
             }
             else
             {
+                if (allCon != null)
+                {
+                    allCon.UARTSequence.Enqueue(2);
+                    allCon.UARTSequence.Enqueue(3);
+                }
+
                 cycleTimer.Start();
                 btnPause.Text = "Pause";
                 labelInstruction.Text = lastInstruction;
@@ -891,9 +898,26 @@ namespace Wiring_Desk
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            stopHomeTimers();
-            serialPort1?.Close();  // very common cause of hang
-            Application.Exit();
+            try
+            {
+                stopHomeTimers();
+
+                if (serialPort1 != null && serialPort1.IsOpen)
+                {
+                    serialPort1.Close();  // Can hang if port is busy or not responding
+                }
+
+                Application.Exit();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"An error occurred while closing the application:\n{ex.Message}",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
         }
 
         private void guna2Button1_Click(object sender, EventArgs e)
