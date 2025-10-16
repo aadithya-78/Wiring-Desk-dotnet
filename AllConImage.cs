@@ -474,7 +474,7 @@ namespace Wiring_Desk
                 else if (value == 0x00)
                     pb.Tag = Color.Red;     // mark as inactive
                 else
-                    pb.Tag = Color.Yellow;  // optional: unknown state
+                    pb.Tag = Color.Red;  
             }
 
             foreach (var pb in pictureBoxes)

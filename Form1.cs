@@ -125,7 +125,8 @@ namespace Wiring_Desk
 
         private void selectDesk_SelectedIndexChanged(object sender, EventArgs e)
         {
-            deskChanged();
+            Reset();
+            
         }
 
         private void ScanTimer_Tick(object sender, EventArgs e)
